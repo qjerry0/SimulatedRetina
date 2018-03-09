@@ -1,18 +1,18 @@
 #pragma once
 #include "stdafx.h"
 #include <vector>
-#include "point.h"
+#include "Point.h"
+#include "Color.h"
+
 #ifndef PHOTORECEPTOR
 #define PHOTORECEPTOR
 
 class Photoreceptor {
 protected:
-	double cellPotential;
-	double cellMin;
-	double cellMax;
-	bool isGraded;
 	Point location;
-	enum class PhotoreceptorType {Cone, Rod};
+	enum class PhotoreceptorType {RedCone, GreenCone, BlueCone, Rod};
+	PhotoreceptorType pType;
+	float output;
 
 public:
 
@@ -46,22 +46,13 @@ public:
 	Photoreceptor(PhotoreceptorType pt, Point p);
 
 
-	void setConnections();
-
-
 	/**
-		Photoreceptor receives light input
+		Proccesses a given Color input and returns an output from [0-1]
 
-		@param i An intensity value in [0, 1]
+		@param color The color received by the photoreceptor
+		@return The strength of the photoreceptor's activation
 	*/
-	void input(float i);
-
-	/**
-		Photoreceptor outputs result
-
-		@return An intensity value in [0, 1] 
-	*/
-	float output();
+	float process(Color color);
 
 
 	/**
@@ -70,9 +61,6 @@ public:
 		@return Location of the photoreceptor
 	*/
 	virtual Point getPoint();
-
-
-	std::vector<std::vector<float>> acquireInputs();
 };
 
 #endif 
