@@ -12,6 +12,7 @@ protected:
 	Point location;
 	enum class PhotoreceptorType {RedCone, GreenCone, BlueCone, Rod};
 	PhotoreceptorType pType;
+	Color input;
 	float output;
 
 public:
@@ -45,6 +46,12 @@ public:
 	*/
 	Photoreceptor(PhotoreceptorType pt, Point p);
 
+	/**
+		Photoreceptor receives light input
+
+		@param c The color received by the photoreceptor
+	*/
+	void setInput(Color c);
 
 	/**
 		Proccesses a given Color input and returns an output from [0-1]
@@ -52,7 +59,7 @@ public:
 		@param color The color received by the photoreceptor
 		@return The strength of the photoreceptor's activation
 	*/
-	float process(Color color);
+	float process();
 
 
 	/**
