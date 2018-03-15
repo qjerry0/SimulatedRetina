@@ -10,9 +10,8 @@
 class Opponent {
 protected:
 	Point location;
-	float r;
-	float g;
-	float b;
+	enum OpponentType {Luminance, RedGreen, BlueYellow};
+	OpponentType oTYpe;
 	std::vector<Photoreceptor*> inputCenterConnectedCells;
 	std::vector<Photoreceptor*> inputSurroundConnectedCells;
 
@@ -23,27 +22,43 @@ public:
 	*/
 	Opponent();
 
+
+	/**
+		Creates a new opponent processor of the specified type
+
+		@param ot The type of opponent processor
+	*/
+	Opponent(OpponentType ot);
+
 	/**
 		Creates a new opponent processor at the given location
 
+		@param ot The type of opponent processor
 		@param p The location of the opponent processor
 	*/
-	Opponent(Point p);
+	Opponent(OpponentType ot, Point p);
 
 	/**
-		Sets input connections of the opponent processor
+		Sets input center connections of the opponent processor
 
 		@param v The Photoreceptors it is connected to
 	*/
-	void setConnections(std::vector<Photoreceptor*> v);
+	void setCenterConnections(std::vector<Photoreceptor*> v);
+
+	/**
+	Sets input surround connections of the opponent processor
+
+	@param v The Photoreceptors it is connected to
+	*/
+	void setSurroundConnections(std::vector<Photoreceptor*> v);
 
 
 	/**
 		Opponent processor outputs result
 
-		@return An rgb color
+		@return The strength of the output signal [0-1]
 	*/
-	Color output();
+	float output();
 
 
 	/**
