@@ -1,9 +1,9 @@
 #pragma once
 #include "stdafx.h"
 #include <vector>
-#include "point.h"
-#include "opponent.h"
-#include "photoreceptor.h"
+#include "Point.h"
+#include "Opponent.h"
+#include "Photoreceptor.h"
 #ifndef FACTORY
 #define FACTORY
 

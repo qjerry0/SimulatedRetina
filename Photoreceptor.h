@@ -8,9 +8,11 @@
 #define PHOTORECEPTOR
 
 class Photoreceptor {
+public:
+	enum class PhotoreceptorType { RedCone, GreenCone, BlueCone, Rod };
+
 protected:
 	Point location;
-	enum class PhotoreceptorType {RedCone, GreenCone, BlueCone, Rod};
 	PhotoreceptorType pType;
 	Color input;
 	float output;

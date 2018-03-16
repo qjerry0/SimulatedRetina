@@ -8,11 +8,13 @@
 #define OPPONENT
 
 class Opponent {
+public:
+	enum class OpponentChannelType { Luminance, RedGreen, BlueYellow };
+	enum class OpponentFieldType { OnCenter, OnSurround };
+
 protected:
 	float SURROUND_CONSTANT;
 	Point location;
-	enum class OpponentChannelType {Luminance, RedGreen, BlueYellow};
-	enum class OpponentFieldType {OnCenter, OnSurround};
 	OpponentChannelType ocType;
 	OpponentFieldType ofType;
 	std::vector<Photoreceptor*> inputCenterConnectedCells;
