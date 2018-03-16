@@ -66,6 +66,16 @@ public:
 
 	void resetConnections();
 
-};
+	OpponentChannelType Opponent::getChannelType(){
+		return ocType;
+	}	
 
+	OpponentFieldType Opponent::getFieldType(){
+		return ofType;
+	}
 
+	void Opponent::resetConnections(){
+		inputCenterConnectedCells = NULL;
+		inputSurroundConnectedCells = NULL;
+	}
+}

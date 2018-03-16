@@ -63,6 +63,13 @@ public:
 
 
 	/**
+		Photoreceptor outputs result
+
+		@return The strength of the output signal [0-1]
+	*/
+	float output();
+	
+	/**
 		The location of the photoreceptor
 
 		@return Location of the photoreceptor
