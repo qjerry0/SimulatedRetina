@@ -11,7 +11,7 @@ class Opponent {
 protected:
 	Point location;
 	enum OpponentType {Luminance, RedGreen, BlueYellow};
-	OpponentType oTYpe;
+	OpponentType oType;
 	std::vector<Photoreceptor*> inputCenterConnectedCells;
 	std::vector<Photoreceptor*> inputSurroundConnectedCells;
 
@@ -54,11 +54,11 @@ public:
 
 
 	/**
-		Opponent processor outputs result
+		Opponent processor outputs result with current connections
 
 		@return The strength of the output signal [0-1]
 	*/
-	float output();
+	float process();
 
 
 	/**
@@ -66,7 +66,7 @@ public:
 
 		@return Location of the opponent processor
 	*/
-	virtual Point getPoint();
+	Point getPoint();
 
 	/**
 		Receives input from center connected photoreceptors

@@ -54,10 +54,10 @@ public:
 	void setInput(Color c);
 
 	/**
-		Proccesses a given Color input and returns an output from [0-1]
+		Proccesses a given Color input and returns an output from [0,1]
 
 		@param color The color received by the photoreceptor
-		@return The strength of the photoreceptor's activation
+		@return The strength of the photoreceptor's activation in [0,1]
 	*/
 	float process();
 

@@ -34,23 +34,15 @@ float Photoreceptor::process() {
 	switch (pType) {
 	case PhotoreceptorType::RedCone:
 		return input.r;
-		output = input.r;
-		break;
 		
 	case PhotoreceptorType::GreenCone:
 		return input.g;
-		output = input.g;
-		break;
 
 	case PhotoreceptorType::BlueCone:
 		return input.b;
-		output = input.b;
-		break;
 
 	default:
 		return input.magnitude();
-		output = input.magnitude();
-		break;
 	}
 }
 
