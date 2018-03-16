@@ -156,6 +156,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Factory.cpp" />
     <ClCompile Include="Opponent.cpp" />
     <ClCompile Include="Photoreceptor.cpp" />
     <ClCompile Include="SimulatedRetina.cpp" />
