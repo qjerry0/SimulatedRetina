@@ -54,3 +54,6 @@ float Photoreceptor::process() {
 	}
 }
 
+float Photoreceptor::output(){
+	return output;
+

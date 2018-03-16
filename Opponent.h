@@ -10,10 +10,13 @@
 class Opponent {
 protected:
 	Point location;
-	enum OpponentType {Luminance, RedGreen, BlueYellow};
-	OpponentType oTYpe;
+	enum class OpponentChannelType {Luminance, RedGreen, BlueYellow};
+	enum class OpponentFieldType {OnCenter, OnSurround};
+	OpponentChannelType ocType;
+	OpponentFieldType ofType;
 	std::vector<Photoreceptor*> inputCenterConnectedCells;
 	std::vector<Photoreceptor*> inputSurroundConnectedCells;
+	float output;
 
 public:
 
@@ -51,8 +54,14 @@ public:
 	@param v The Photoreceptors it is connected to
 	*/
 	void setSurroundConnections(std::vector<Photoreceptor*> v);
-
-
+	
+	/**
+	Opponent processor processes input from connected Photoreceptors
+	
+	@return The strength of the output signal [0-1]
+	*/
+	float process();
+	
 	/**
 		Opponent processor outputs result
 
@@ -69,19 +78,19 @@ public:
 	virtual Point getPoint();
 
 	/**
-		Receives input from center connected photoreceptors
-
-		@param v Intensity values of photoreceptors
+		The channel type of the opponent processor
+		
+		@return Opponent Channel Type {Luminance, RedGreen, BlueYellow}
 	*/
-	void acquireInputCenter(std::vector<float> v);
-
+	OpponentChannelType getChannelType();
+	
 	/**
-		Receives input from surround connected photoreceptors
-
-		@param v Intensity values of photoreceptors
+		The field processing type of the opponent processor
+		
+		@return Opponent Field Processing Type {OnCenter, OnSurround}
 	*/
-	void acquireInputSurround(std::vector<float> v);
-
+	OpponentFieldType getFieldType();
+	
 	/**
 		Resets all connected Photoreceptors
 	*/
