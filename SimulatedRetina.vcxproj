@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Opponent.h" />
     <ClInclude Include="OpponentFactory.h" />
     <ClInclude Include="Photoreceptor.h" />
@@ -155,6 +156,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Opponent.cpp" />
+    <ClCompile Include="Photoreceptor.cpp" />
     <ClCompile Include="SimulatedRetina.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

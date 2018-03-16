@@ -1,81 +1,61 @@
 #include "stdafx.h"
 #include "Opponent.h"
-#include "photoreceptor.h"
+#include "Photoreceptor.h"
 #include <vector>
 #include "point.h"
 #include "color.h"
 
-class Opponent {
-protected:
-	float SURROUND_CONSTANT = 1;
-	Point location;
-	enum OpponentType {Luminance, RedGreen, BlueYellow};
-	OpponentType oType;
-	std::vector<Photoreceptor*> inputCenter;
-	std::vector<Photoreceptor*> inputSurround;
+Opponent::Opponent() {}
 
-public:
+Opponent::Opponent(OpponentChannelType ot, OpponentFieldType oft){
+	ocType = ot;
+	ofType = oft;
+}
 
-	Opponent(){
+Opponent::Opponent(OpponentChannelType ot, OpponentFieldType oft, Point p){
+	ocType = ot;
+	ofType = oft;
+	location = p;
+}
+
+void Opponent::setCenterConnections(std::vector<Photoreceptor*> v){
+	inputCenterConnectedCells = v;
+}
+
+void Opponent::setSurroundConnections(std::vector<Photoreceptor*> v) {
+	inputSurroundConnectedCells = v;
+};
+
+float Opponent::process(){
+	float sum = 0;
+	for (Photoreceptor* p : inputCenterConnectedCells){
+		sum += p->getOutput();
 	}
-
-
-	Opponent(OpponentType ot){
-		oType = ot;
-	}
-
-	Opponent(OpponentType ot, Point p){
-		oType = ot;
-		location = p;
-	}
-
-	void setCenterConnections(std::vector<Photoreceptor*> v){
-		inputCenter
-	}
-
-	void setSurroundConnections(std::vector<Photoreceptor*> v);
-
-	float process(){
-		float sum = 0;
-		for (Photoreceptor &p : inputCenter){
-			sum += p.process();
-		}
-		sum/= inputCenter.size();
+	sum/= inputCenterConnectedCells.size();
 		
-		float subtract = 0;
-		for (Photoreceptor &p : inputSurround){
-			subtract += p.process();
-		}
-		subtract/= inputSurround.size();
-		subtract/= SURROUND_CONSTANT;
-
-		return sum - subtract;
+	float subtract = 0;
+	for (Photoreceptor* p : inputSurroundConnectedCells){
+		subtract += p->getOutput();
 	}
+	subtract/= inputSurroundConnectedCells.size();
+	subtract/= SURROUND_CONSTANT;
 
-	Point getPoint(){
-		return location;
-	}
+	return sum - subtract;
+}
 
-	void acquireInputCenter(std::vector<float> v){
-		inputCenter = v;
-	}
-	
-	void acquireInputSurround(std::vector<float> v){
-		inputSurround = v;
-	}
+Point Opponent::getPoint(){
+	return location;
+}
 
-	void resetConnections();
+Opponent::OpponentChannelType Opponent::getChannelType(){
+	return ocType;
+}	
 
-	OpponentChannelType Opponent::getChannelType(){
-		return ocType;
-	}	
+Opponent::OpponentFieldType Opponent::getFieldType(){
+	return ofType;
+}
 
-	OpponentFieldType Opponent::getFieldType(){
-		return ofType;
-	}
-
-	void Opponent::resetConnections(){
-		inputCenterConnectedCells = NULL;
-		inputSurroundConnectedCells = NULL;
-	}
+void Opponent::resetConnections(){
+	inputCenterConnectedCells.clear();
+	inputSurroundConnectedCells.clear();
 }

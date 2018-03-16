@@ -9,6 +9,7 @@
 
 class Opponent {
 protected:
+	float SURROUND_CONSTANT;
 	Point location;
 	enum class OpponentChannelType {Luminance, RedGreen, BlueYellow};
 	enum class OpponentFieldType {OnCenter, OnSurround};
@@ -31,7 +32,7 @@ public:
 
 		@param ot The type of opponent processor
 	*/
-	Opponent(OpponentType ot);
+	Opponent(OpponentChannelType ot, OpponentFieldType oft);
 
 	/**
 		Creates a new opponent processor at the given location
@@ -39,7 +40,7 @@ public:
 		@param ot The type of opponent processor
 		@param p The location of the opponent processor
 	*/
-	Opponent(OpponentType ot, Point p);
+	Opponent(OpponentChannelType ot, OpponentFieldType oft, Point p);
 
 	/**
 		Sets input center connections of the opponent processor

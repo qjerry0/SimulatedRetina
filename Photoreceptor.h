@@ -67,7 +67,7 @@ public:
 
 		@return The strength of the output signal [0-1]
 	*/
-	float output();
+	float getOutput();
 	
 	/**
 		The location of the photoreceptor
