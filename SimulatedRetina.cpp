@@ -10,11 +10,11 @@
 
 int main()
 {
-	Quadtree<Photoreceptor> photoreceptorLayer = Factory::createPhotoreceptors();
+	Quadtree<Photoreceptor> photoreceptorLayer = *Factory::createPhotoreceptors();
 
 	std::cout << "Photoreceptors created.\n==========================================\n";
 
-	Quadtree<Opponent> opponentLayer = Factory::createOpponents();
+	Quadtree<Opponent> opponentLayer = *Factory::createOpponents();
 	
 	std::cout << "Opponents created.\n==============================================\n";
 

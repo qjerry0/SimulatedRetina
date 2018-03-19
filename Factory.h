@@ -19,14 +19,14 @@ public:
 
 	@return The photoreceptors generated
 	*/
-	static Quadtree<Photoreceptor> createPhotoreceptors();
+	static Quadtree<Photoreceptor>* createPhotoreceptors();
 
 	/**
 		Generates all opponent processors in the model
 
 		@return The opponent processors generated
 	*/
-	static Quadtree<Opponent> createOpponents();
+	static Quadtree<Opponent>* createOpponents();
 
 	/**
 		Connects all the opponent processors with photoreceptors

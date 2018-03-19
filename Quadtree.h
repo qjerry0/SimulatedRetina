@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Point.h"
 #include <vector>
-#include <iostream>
 
 #ifndef QUADTREE
 #define QUADTREE
