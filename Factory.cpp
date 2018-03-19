@@ -13,7 +13,7 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 	srand(time(NULL));
 	float size = 10.0f;
 
-	Quadtree<Photoreceptor>* layer = new Quadtree<Photoreceptor>(Region(Point(0,0), Point(size/2,size/2)));
+	Quadtree<Photoreceptor>* layer = new Quadtree<Photoreceptor>(Region(Point(0,0), Point(size,size)));
 	Photoreceptor::PhotoreceptorType type;
 	
 	for (int i = 0; i < size; i++) {
@@ -26,9 +26,9 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 			else
 				type = Photoreceptor::PhotoreceptorType::BlueCone;
 
-			Point p = Point(-size / 2 + ((float)j), -size / 2 + ((float)i));
-			layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
-			std::cout << "Photoreceptor " << i * size + j + 1 << " generated.\n";
+			Point p = Point(-size / 2.0f + ((float)j), -size / 2.0f + ((float)i));
+			if(!layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p))))
+				std::cout << "Photoreceptor " << i * size + j + 1 << " failed to be inserted.\n";
 		}
 	}
 

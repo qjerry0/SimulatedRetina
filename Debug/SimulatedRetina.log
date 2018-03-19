@@ -1,6 +1,6 @@
 ﻿  SimulatedRetina.cpp
-d:\jlw387\retina\simulatedretina\quadtree.h(182): warning C4018: '<': signed/unsigned mismatch
-  d:\jlw387\retina\simulatedretina\quadtree.h(174): note: while compiling class template member function 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)'
+d:\jlw387\retina\simulatedretina\quadtree.h(181): warning C4018: '<': signed/unsigned mismatch
+  d:\jlw387\retina\simulatedretina\quadtree.h(173): note: while compiling class template member function 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)'
           with
           [
               T=Photoreceptor,
@@ -13,20 +13,4 @@ d:\jlw387\retina\simulatedretina\quadtree.h(182): warning C4018: '<': signed/uns
               _Ty=Data<Photoreceptor>
           ]
   d:\jlw387\retina\simulatedretina\simulatedretina.cpp(13): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
-  Factory.cpp
-d:\jlw387\retina\simulatedretina\factory.cpp(13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\jlw387\retina\simulatedretina\factory.cpp(46): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\jlw387\retina\simulatedretina\quadtree.h(141): warning C4018: '<': signed/unsigned mismatch
-  d:\jlw387\retina\simulatedretina\quadtree.h(135): note: while compiling class template member function 'bool Quadtree<Photoreceptor>::insert(Data<T>)'
-          with
-          [
-              T=Photoreceptor
-          ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(30): note: see reference to function template instantiation 'bool Quadtree<Photoreceptor>::insert(Data<T>)' being compiled
-          with
-          [
-              T=Photoreceptor
-          ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(16): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
-  Generating Code...
   SimulatedRetina.vcxproj -> D:\jlw387\Retina\SimulatedRetina\Debug\SimulatedRetina.exe

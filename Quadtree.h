@@ -13,9 +13,9 @@ struct Region {
 
 	bool contains(Point a)
 	{
-		if (a.x < center.x + halfSize.x && a.x > center.x - halfSize.x)
+		if (a.x < center.x + halfSize.x && a.x >= center.x - halfSize.x)
 		{
-			if (a.y < center.y + halfSize.y && a.y > center.y - halfSize.y)
+			if (a.y < center.y + halfSize.y && a.y >= center.y - halfSize.y)
 			{
 				return true;
 			}
@@ -26,7 +26,7 @@ struct Region {
 	bool intersects(Region other)
 	{
 		//this right > that left                                          this left <s that right
-		if (this->center.x + this->halfSize.x > other.center.x - other.halfSize.x || this->center.x - this->halfSize.x < other.center.x + other.halfSize.x)
+		if (center.x + halfSize.x > other.center.x - other.halfSize.x || center.x - halfSize.x < other.center.x + other.halfSize.x)
 		{
 			// This bottom > that top
 			if (center.y + halfSize.y > other.center.y - other.halfSize.y || center.y - halfSize.y < other.center.y + other.halfSize.y)
@@ -125,7 +125,7 @@ void Quadtree<T>::subdivide()
 	qCenter = Point(boundary.center.x - qSize.x, boundary.center.y - qSize.y);
 	sw = new Quadtree(Region(qCenter, qSize));
 
-	qCenter = Point(boundary.center.x - qSize.x, boundary.center.y + qSize.y);
+	qCenter = Point(boundary.center.x + qSize.x, boundary.center.y - qSize.y);
 	se = new Quadtree(Region(qCenter, qSize));
 }
 

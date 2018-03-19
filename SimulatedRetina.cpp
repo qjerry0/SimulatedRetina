@@ -33,6 +33,8 @@ int main()
 
 	std::vector<Data<Opponent>> opsData = opponentLayer.queryRange(photoreceptorLayer.getBoundary());
 
+	std::cout << "Query success! Found " << opsData.size() << "\n";
+
 	for (Data<Opponent> dop : opsData) {
 		dop.load->process();
 		std::cout << "Opponent at (" << dop.load->getPoint().x << ", " << dop.load->getPoint().y << ")\n";
