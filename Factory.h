@@ -4,6 +4,8 @@
 #include "Point.h"
 #include "Opponent.h"
 #include "Photoreceptor.h"
+#include "Quadtree.h"
+
 #ifndef FACTORY
 #define FACTORY
 
@@ -17,14 +19,14 @@ public:
 
 	@return The photoreceptors generated
 	*/
-	static std::vector<Photoreceptor*> createPhotoreceptors();
+	static Quadtree<Photoreceptor> createPhotoreceptors();
 
 	/**
 		Generates all opponent processors in the model
 
 		@return The opponent processors generated
 	*/
-	static std::vector<Opponent*> createOpponents();
+	static Quadtree<Opponent> createOpponents();
 
 	/**
 		Connects all the opponent processors with photoreceptors
@@ -32,7 +34,7 @@ public:
 		@param p Photoreceptors in the model
 		@param o Opponent processors in the model
 	*/
-	static void connectOpponents(std::vector<Photoreceptor*> p, std::vector<Opponent*> o);
+	static void connectOpponents(Quadtree<Photoreceptor> p, Quadtree<Opponent> o);
 };
 
 #endif 

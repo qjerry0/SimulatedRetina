@@ -63,14 +63,7 @@ public:
 	
 	@return The strength of the output signal [0-1]
 	*/
-	float process();
-	
-	/**
-		Opponent processor outputs result with current connections
-
-		@return The strength of the output signal [0-1]
-	*/
-	float process();
+	double process();
 
 
 	/**

@@ -61,7 +61,7 @@ public:
 		@param color The color received by the photoreceptor
 		@return The strength of the photoreceptor's activation in [0,1]
 	*/
-	float process();
+	double process();
 
 
 	/**
@@ -69,7 +69,7 @@ public:
 
 		@return The strength of the output signal [0-1]
 	*/
-	float getOutput();
+	double getOutput();
 	
 	/**
 		The location of the photoreceptor

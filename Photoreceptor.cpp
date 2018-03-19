@@ -30,7 +30,7 @@ void Photoreceptor::setInput(Color c) {
 //Assume Activation Depends only on the Cone Color Value (i.e. Red Cones use Red Color Value,
 //Green Cones Use Green Color Value, Blue Cones use Blue)
 
-float Photoreceptor::process() {
+double Photoreceptor::process() {
 	switch (pType) {
 	case PhotoreceptorType::RedCone:
 		return input.r;
@@ -46,7 +46,7 @@ float Photoreceptor::process() {
 	}
 }
 
-float Photoreceptor::getOutput() {
+double Photoreceptor::getOutput() {
 	return output;
 }
 

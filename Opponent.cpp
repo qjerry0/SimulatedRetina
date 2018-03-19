@@ -26,14 +26,14 @@ void Opponent::setSurroundConnections(std::vector<Photoreceptor*> v) {
 	inputSurroundConnectedCells = v;
 };
 
-float Opponent::process(){
-	float sum = 0;
+double Opponent::process(){
+	double sum = 0;
 	for (Photoreceptor* p : inputCenterConnectedCells){
 		sum += p->getOutput();
 	}
 	sum/= inputCenterConnectedCells.size();
 		
-	float subtract = 0;
+	double subtract = 0;
 	for (Photoreceptor* p : inputSurroundConnectedCells){
 		subtract += p->getOutput();
 	}

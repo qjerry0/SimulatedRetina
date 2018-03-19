@@ -8,17 +8,17 @@
 
 int main()
 {
-	std::vector<Photoreceptor*> photoreceptorLayer = Factory::createPhotoreceptors();
-	std::vector<Opponent*> opponentLayer = Factory::createOpponents();
+	Quadtree<Photoreceptor> photoreceptorLayer = Factory::createPhotoreceptors();
+	Quadtree<Opponent> opponentLayer = Factory::createOpponents();
 	
 	Factory::connectOpponents(photoreceptorLayer, opponentLayer);
 
-	for (Photoreceptor* p : photoreceptorLayer) {
-		p->process();
+	for (Data<Photoreceptor> dp : photoreceptorLayer.queryRange(photoreceptorLayer.getBoundary())) {
+		(dp.load)->process();
 	}
 
-	for (Opponent* o : opponentLayer) {
-		o->process();
+	for (Data<Opponent> dop : opponentLayer.queryRange(opponentLayer.getBoundary())) {
+		dop.load->process();
 	}
 }
 
