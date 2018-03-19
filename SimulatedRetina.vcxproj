@@ -160,7 +160,6 @@
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="Opponent.cpp" />
     <ClCompile Include="Photoreceptor.cpp" />
-    <ClCompile Include="Quadtree.cpp" />
     <ClCompile Include="SimulatedRetina.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

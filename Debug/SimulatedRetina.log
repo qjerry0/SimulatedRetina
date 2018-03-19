@@ -1,1 +1,35 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.Cpp.Platform.targets(57,5): error MSB8020: The build tools for v141 (Platform Toolset = 'v141') cannot be found. To build using the v141 build tools, please install v141 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Retarget solution".
+﻿  stdafx.cpp
+  SimulatedRetina.cpp
+d:\jlw387\retina\simulatedretina\quadtree.h(181): warning C4018: '<': signed/unsigned mismatch
+  d:\jlw387\retina\simulatedretina\quadtree.h(173): note: while compiling class template member function 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)'
+          with
+          [
+              T=Photoreceptor,
+              _Ty=Data<Photoreceptor>
+          ]
+  d:\jlw387\retina\simulatedretina\simulatedretina.cpp(17): note: see reference to function template instantiation 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)' being compiled
+          with
+          [
+              T=Photoreceptor,
+              _Ty=Data<Photoreceptor>
+          ]
+  d:\jlw387\retina\simulatedretina\simulatedretina.cpp(12): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
+  Photoreceptor.cpp
+  Opponent.cpp
+  Factory.cpp
+d:\jlw387\retina\simulatedretina\factory.cpp(12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\jlw387\retina\simulatedretina\factory.cpp(42): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\jlw387\retina\simulatedretina\quadtree.h(140): warning C4018: '<': signed/unsigned mismatch
+  d:\jlw387\retina\simulatedretina\quadtree.h(134): note: while compiling class template member function 'bool Quadtree<Photoreceptor>::insert(Data<T>)'
+          with
+          [
+              T=Photoreceptor
+          ]
+  d:\jlw387\retina\simulatedretina\factory.cpp(27): note: see reference to function template instantiation 'bool Quadtree<Photoreceptor>::insert(Data<T>)' being compiled
+          with
+          [
+              T=Photoreceptor
+          ]
+  d:\jlw387\retina\simulatedretina\factory.cpp(11): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
+  Generating Code...
+  SimulatedRetina.vcxproj -> D:\jlw387\Retina\SimulatedRetina\Debug\SimulatedRetina.exe

@@ -5,6 +5,7 @@
 #include "Photoreceptor.h"
 #include "Opponent.h"
 #include "Factory.h"
+#include "Quadtree.h"
 
 int main()
 {
