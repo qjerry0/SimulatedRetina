@@ -34,7 +34,7 @@ public:
 		@param p Photoreceptors in the model
 		@param o Opponent processors in the model
 	*/
-	static void connectOpponents(Quadtree<Photoreceptor> p, Quadtree<Opponent> o);
+	static void connectOpponents(Quadtree<Photoreceptor>& p, Quadtree<Opponent>& o);
 };
 
 #endif 

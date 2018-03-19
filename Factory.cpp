@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <random>
 #include <ctime>
+#include <iostream>
 #include "Factory.h"
 
 //Makes a size x size grid of Cones with types randomly chosen with the following probabilities
@@ -10,9 +11,11 @@
 
 Quadtree<Photoreceptor> Factory::createPhotoreceptors() {
 	srand(time(NULL));
-	Quadtree<Photoreceptor> layer;
+	float size = 10;
+
+	Quadtree<Photoreceptor> layer = Quadtree<Photoreceptor>(Region(Point(0,0), Point(size/2,size/2)));
 	Photoreceptor::PhotoreceptorType type;
-	int size = 10;
+	
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++){
 			int typeCheck = rand() % 10;
@@ -25,6 +28,7 @@ Quadtree<Photoreceptor> Factory::createPhotoreceptors() {
 
 			Point p = Point(-size / 2 + j, -size / 2 + i);
 			layer.insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
+			std::cout << "Photoreceptor " << i * size + j + 1 << " generated.\n";
 		}
 	}
 
@@ -40,9 +44,11 @@ Quadtree<Photoreceptor> Factory::createPhotoreceptors() {
 
 Quadtree<Opponent> Factory::createOpponents() {
 	srand(time(NULL));
-	Quadtree<Opponent> layer;
-	Opponent::OpponentChannelType type;
 	int size = 10;
+
+	Quadtree<Opponent> layer = Quadtree<Opponent>(Region(Point(0, 0), Point(size / 2, size / 2)));;
+	Opponent::OpponentChannelType type;
+
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
 			int typeCheck = rand() % 10;
@@ -55,12 +61,13 @@ Quadtree<Opponent> Factory::createOpponents() {
 
 			Point p = Point(-size / 2 + j, -size / 2 + i);
 			layer.insert(Data<Opponent>(p, new Opponent(type, Opponent::OpponentFieldType::OnCenter, p)));
+			std::cout << "Opponent " << i * size + j + 1 << " generated.\n";
 		}
 	}
 
 	return layer;
 }
 
-void Factory::connectOpponents(Quadtree<Photoreceptor> phots, Quadtree<Opponent> ops) {
+void Factory::connectOpponents(Quadtree<Photoreceptor>& phots, Quadtree<Opponent>& ops) {
 	
 }

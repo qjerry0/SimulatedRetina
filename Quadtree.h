@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Point.h"
 #include <vector>
+#include <iostream>
 
 #ifndef QUADTREE
 #define QUADTREE
@@ -11,7 +12,7 @@ struct Region {
 
 	Region(Point center = Point(), Point halfSize = Point()) : center(center), halfSize(halfSize) {};
 
-	bool contains(const Point a) const
+	bool contains(Point a)
 	{
 		if (a.x < center.x + halfSize.x && a.x > center.x - halfSize.x)
 		{
@@ -23,10 +24,10 @@ struct Region {
 		return false;
 	}
 
-	bool intersects(const Region other) const
+	bool intersects(Region other)
 	{
 		//this right > that left                                          this left <s that right
-		if (center.x + halfSize.x > other.center.x - other.halfSize.x || center.x - halfSize.x < other.center.x + other.halfSize.x)
+		if (this->center.x + this->halfSize.x > other.center.x - other.halfSize.x || this->center.x - this->halfSize.x < other.center.x + other.halfSize.x)
 		{
 			// This bottom > that top
 			if (center.y + halfSize.y > other.center.y - other.halfSize.y || center.y - halfSize.y < other.center.y + other.halfSize.y)
@@ -115,17 +116,17 @@ Region Quadtree<T>::getBoundary()
 template <class T>
 void Quadtree<T>::subdivide()
 {
-	Point qSize = Point(boundary.halfSize.x, boundary.halfSize.y);
-	Point qCenter = Point(boundary.center.x - qSize.x, boundary.center.y - qSize.y);
+	Point qSize = Point(boundary.halfSize.x/2, boundary.halfSize.y/2);
+	Point qCenter = Point(boundary.center.x - qSize.x, boundary.center.y + qSize.y);
 	nw = new Quadtree(Region(qCenter, qSize));
 
-	qCenter = Point(boundary.center.x + qSize.x, boundary.center.y - qSize.y);
+	qCenter = Point(boundary.center.x + qSize.x, boundary.center.y + qSize.y);
 	ne = new Quadtree(Region(qCenter, qSize));
 
-	qCenter = Point(boundary.center.x - qSize.x, boundary.center.y + qSize.y);
+	qCenter = Point(boundary.center.x - qSize.x, boundary.center.y - qSize.y);
 	sw = new Quadtree(Region(qCenter, qSize));
 
-	qCenter = Point(boundary.center.x + qSize.x, boundary.center.y + qSize.y);
+	qCenter = Point(boundary.center.x - qSize.x, boundary.center.y + qSize.y);
 	se = new Quadtree(Region(qCenter, qSize));
 }
 

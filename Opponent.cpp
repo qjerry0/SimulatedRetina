@@ -31,13 +31,15 @@ double Opponent::process(){
 	for (Photoreceptor* p : inputCenterConnectedCells){
 		sum += p->getOutput();
 	}
-	sum/= inputCenterConnectedCells.size();
+	if(inputCenterConnectedCells.size() != 0)
+		sum/= inputCenterConnectedCells.size();
 		
 	double subtract = 0;
 	for (Photoreceptor* p : inputSurroundConnectedCells){
 		subtract += p->getOutput();
 	}
-	subtract/= inputSurroundConnectedCells.size();
+	if(inputSurroundConnectedCells.size() != 0)
+		subtract/= inputSurroundConnectedCells.size();
 	subtract/= SURROUND_CONSTANT;
 
 	return sum - subtract;
