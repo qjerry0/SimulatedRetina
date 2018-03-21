@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="Opponent.h" />
     <ClInclude Include="OpponentFactory.h" />

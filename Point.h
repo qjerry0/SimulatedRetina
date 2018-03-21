@@ -13,6 +13,14 @@ struct Point {
 	double magnitude() {
 		return sqrt(x * x + y * y);
 	}
+
+	Point operator+ (const Point& p) {
+		return Point(this->x + p.x, this->y + p.y);
+	}
+
+	Point operator- (const Point& p) {
+		return Point(this->x - p.x, this->y - p.y);
+	}
 };
 
 #endif

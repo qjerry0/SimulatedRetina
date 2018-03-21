@@ -1,9 +1,10 @@
 #pragma once
 #include "stdafx.h"
-#include "photoreceptor.h"
 #include <vector>
-#include "point.h"
-#include "color.h"
+#include "Photoreceptor.h"
+#include "Point.h"
+#include "Color.h"
+
 #ifndef OPPONENT
 #define OPPONENT
 
@@ -87,6 +88,21 @@ public:
 	*/
 	OpponentFieldType getFieldType();
 	
+	/**
+		The radius of the opponent processor's receptive field
+	
+		@return Radius of Receptive Field
+	*/
+	double getRange();
+
+	/**
+		Checks whether the photoreceptor should be processed by the opponent
+
+
+		@return True if the photoreceptor can be processed, false if not
+	*/
+	bool isCompatible(Photoreceptor* p);
+
 	/**
 		Resets all connected Photoreceptors
 	*/

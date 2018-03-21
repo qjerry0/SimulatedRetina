@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Point.h"
+#include "Data.h"
 #include <vector>
 
 #ifndef QUADTREE
@@ -36,15 +37,6 @@ struct Region {
 		}
 		return false;
 	}
-};
-
-template <typename T>
-struct Data
-{
-	Point pos;
-	T* load;
-
-	Data(Point pos = Point(), T* data = nullptr) : pos(pos), load(data) {};
 };
 
 template <class T>

@@ -57,6 +57,33 @@ Opponent::OpponentFieldType Opponent::getFieldType(){
 	return ofType;
 }
 
+double Opponent::getRange() {
+	return 1.5;
+}
+
+bool Opponent::isCompatible(Photoreceptor* p) {
+	switch (p->getType()) {
+
+	case Photoreceptor::PhotoreceptorType::RedCone:
+		if (this->ocType != OpponentChannelType::BlueYellow)
+			return true;
+		return false;
+
+	case Photoreceptor::PhotoreceptorType::GreenCone:
+		if (this->ocType != OpponentChannelType::BlueYellow)
+			return true;
+		return false;
+
+	case Photoreceptor::PhotoreceptorType::BlueCone:
+		if (this->ocType != OpponentChannelType::RedGreen)
+			return true;
+		return false;
+
+	default:
+		return true;
+	}
+}
+
 void Opponent::resetConnections(){
 	inputCenterConnectedCells.clear();
 	inputSurroundConnectedCells.clear();

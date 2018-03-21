@@ -27,8 +27,7 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 				type = Photoreceptor::PhotoreceptorType::BlueCone;
 
 			Point p = Point(-size / 2.0f + ((float)j), -size / 2.0f + ((float)i));
-			if(!layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p))))
-				std::cout << "Photoreceptor " << i * size + j + 1 << " failed to be inserted.\n";
+			layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
 		}
 	}
 
@@ -61,13 +60,25 @@ Quadtree<Opponent>* Factory::createOpponents() {
 
 			Point p = Point(-size / 2 + ((float)j), -size / 2 + ((float)i));
 			layer->insert(Data<Opponent>(p, new Opponent(type, Opponent::OpponentFieldType::OnCenter, p)));
-			std::cout << "Opponent " << i * size + j + 1 << " generated.\n";
 		}
 	}
 
 	return layer;
 }
 
-void Factory::connectOpponents(Quadtree<Photoreceptor>& phots, Quadtree<Opponent>& ops) {
-	
+void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Opponent>& ops) {
+	std::vector<Data<Opponent >> opData = ops.queryRange(ops.getBoundary());
+	for (Data<Opponent> op : opData) {
+		std::vector<Photoreceptor*>* photAdd = new std::vector<Photoreceptor*>();
+		double rad = op.load->getRange();
+		std::vector<Data<Photoreceptor>> photData = photquad.queryRange(Region(op.load->getPoint(), Point(rad,rad)));
+		for (Data<Photoreceptor> dp : photData) {
+			if (op.load->isCompatible(dp.load)) {
+				if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad) {
+					photAdd->push_back(dp.load);
+				}
+			}
+		}
+		op.load->setCenterConnections(*photAdd);
+	}
 }
