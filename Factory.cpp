@@ -69,16 +69,21 @@ Quadtree<Opponent>* Factory::createOpponents() {
 void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Opponent>& ops) {
 	std::vector<Data<Opponent >> opData = ops.queryRange(ops.getBoundary());
 	for (Data<Opponent> op : opData) {
-		std::vector<Photoreceptor*>* photAdd = new std::vector<Photoreceptor*>();
+		std::vector<Photoreceptor*>* photCAdd = new std::vector<Photoreceptor*>();
+		std::vector<Photoreceptor*>* photSAdd = new std::vector<Photoreceptor*>();
 		double rad = op.load->getRange();
 		std::vector<Data<Photoreceptor>> photData = photquad.queryRange(Region(op.load->getPoint(), Point(rad,rad)));
 		for (Data<Photoreceptor> dp : photData) {
 			if (op.load->isCompatible(dp.load)) {
-				if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad) {
-					photAdd->push_back(dp.load);
+				if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad/2) {
+					photCAdd->push_back(dp.load);
+				}
+				else if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad) {
+					photSAdd->push_back(dp.load);
 				}
 			}
 		}
-		op.load->setCenterConnections(*photAdd);
+		op.load->setCenterConnections(*photCAdd);
+		op.load->setSurroundConnections(*photSAdd);
 	}
 }
