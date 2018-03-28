@@ -2,8 +2,6 @@
 #include "Opponent.h"
 #include "Photoreceptor.h"
 #include <vector>
-#include "point.h"
-#include "color.h"
 
 Opponent::Opponent() {}
 
@@ -27,22 +25,72 @@ void Opponent::setSurroundConnections(std::vector<Photoreceptor*> v) {
 };
 
 double Opponent::process(){
-	double sum = 0;
-	for (Photoreceptor* p : inputCenterConnectedCells){
-		sum += p->getOutput();
-	}
-	if(inputCenterConnectedCells.size() != 0)
-		sum/= inputCenterConnectedCells.size();
-		
-	double subtract = 0;
-	for (Photoreceptor* p : inputSurroundConnectedCells){
-		subtract += p->getOutput();
-	}
-	if(inputSurroundConnectedCells.size() != 0)
-		subtract/= inputSurroundConnectedCells.size();
-	subtract/= SURROUND_CONSTANT;
+	double sum1 = 0;
+	int sum1Size = 0;
 
-	return sum - subtract;
+	//Used For RedGreen and BlueYellow
+	double sum2 = 0;
+	int sum2Size = 0;
+
+	for (Photoreceptor* p : inputCenterConnectedCells){
+		if (this->ocType == OpponentChannelType::Luminance) {
+			sum1 += p->getOutput();
+			sum1Size++;
+		}
+		else {
+			if (p->getType() == Photoreceptor::PhotoreceptorType::RedCone || (p->getType() == Photoreceptor::PhotoreceptorType::GreenCone && this->ocType == OpponentChannelType::BlueYellow)) {
+				sum1 += p->getOutput();
+				sum1Size++;
+			}
+			else {
+				sum2 += p->getOutput();
+				sum2Size++;
+			}
+		}
+	}
+	if(sum1Size != 0)
+		sum1/= sum1Size;
+	if (sum2Size != 0)
+		sum2 /= sum2Size;
+
+	double sub1 = 0;
+	int sub1Size = 0;
+
+	//Used For RedGreen and BlueYellow
+	double sub2 = 0;
+	int sub2Size = 0;
+
+	for (Photoreceptor* p : inputSurroundConnectedCells) {
+		if (this->ocType == OpponentChannelType::Luminance) {
+			sub1 += p->getOutput();
+			sub1Size++;
+		}
+		else {
+			if (p->getType() == Photoreceptor::PhotoreceptorType::RedCone || (p->getType() == Photoreceptor::PhotoreceptorType::GreenCone && this->ocType == OpponentChannelType::BlueYellow)) {
+				sub1 += p->getOutput();
+				sub1Size++;
+			}
+			else {
+				sub2 += p->getOutput();
+				sub2Size++;
+			}
+		}
+	}
+	if (sub1Size != 0)
+		sub1 /= sub1Size;
+	if (sub2Size != 0)
+		sub2 /= sub2Size;
+
+
+	sub1 /= SURROUND_CONSTANT;
+	sub2 /= SURROUND_CONSTANT;
+
+	output = (sum1 - sub1) - (sum2 - sub2);
+	return output;
+}
+
+double Opponent::getOutput() {
+	return output;
 }
 
 Point Opponent::getPoint(){
@@ -58,30 +106,13 @@ Opponent::OpponentFieldType Opponent::getFieldType(){
 }
 
 double Opponent::getRange() {
-	return 1.5;
+	return 5;
 }
 
 bool Opponent::isCompatible(Photoreceptor* p) {
-	switch (p->getType()) {
-
-	case Photoreceptor::PhotoreceptorType::RedCone:
-		if (this->ocType != OpponentChannelType::BlueYellow)
-			return true;
+	if (p->getType() == Photoreceptor::PhotoreceptorType::BlueCone && this->ocType == OpponentChannelType::RedGreen)
 		return false;
-
-	case Photoreceptor::PhotoreceptorType::GreenCone:
-		if (this->ocType != OpponentChannelType::BlueYellow)
-			return true;
-		return false;
-
-	case Photoreceptor::PhotoreceptorType::BlueCone:
-		if (this->ocType != OpponentChannelType::RedGreen)
-			return true;
-		return false;
-
-	default:
-		return true;
-	}
+	return true;
 }
 
 void Opponent::resetConnections(){

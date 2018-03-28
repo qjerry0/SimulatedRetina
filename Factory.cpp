@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Factory.h"
 
+const float Factory::size = 100.0f;
+
 //Makes a size x size grid of Cones with types randomly chosen with the following probabilities
 //Red: 60%
 //Green: 30%
@@ -11,7 +13,6 @@
 
 Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 	srand(time(NULL));
-	float size = 10.0f;
 
 	Quadtree<Photoreceptor>* layer = new Quadtree<Photoreceptor>(Region(Point(0,0), Point(size,size)));
 	Photoreceptor::PhotoreceptorType type;
@@ -43,7 +44,6 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 
 Quadtree<Opponent>* Factory::createOpponents() {
 	srand(time(NULL));
-	float size = 10.0f;
 
 	Quadtree<Opponent>* layer = new Quadtree<Opponent>(Region(Point(0, 0), Point(size / 2, size / 2)));;
 	Opponent::OpponentChannelType type;

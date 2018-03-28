@@ -3,7 +3,7 @@
 #include <vector>
 #include "Photoreceptor.h"
 #include "Point.h"
-#include "Color.h"
+#include "FloatColor.h"
 
 #ifndef OPPONENT
 #define OPPONENT
@@ -14,7 +14,7 @@ public:
 	enum class OpponentFieldType { OnCenter, OnSurround };
 
 protected:
-	float SURROUND_CONSTANT;
+	float SURROUND_CONSTANT = 2;
 	Point location;
 	OpponentChannelType ocType;
 	OpponentFieldType ofType;
@@ -65,6 +65,13 @@ public:
 	@return The strength of the output signal [0-1]
 	*/
 	double process();
+
+	/**
+		Opponent outputs result
+
+		@return The strength of the output signal [(-1)-1]
+	*/
+	double getOutput();
 
 
 	/**

@@ -13,6 +13,7 @@
 class Factory {
 
 public:
+	static const float size;
 
 	/**
 	Generates all photoreceptors in the model

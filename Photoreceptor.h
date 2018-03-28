@@ -2,7 +2,8 @@
 #include "stdafx.h"
 #include <vector>
 #include "Point.h"
-#include "Color.h"
+#include "FloatColor.h"
+#include "SFML\Graphics.hpp"
 
 #ifndef PHOTORECEPTOR
 #define PHOTORECEPTOR
@@ -14,7 +15,7 @@ public:
 protected:
 	Point location;
 	PhotoreceptorType pType;
-	Color input;
+	FloatColor input;
 	float output;
 
 public:
@@ -53,7 +54,7 @@ public:
 
 		@param c The color received by the photoreceptor
 	*/
-	void setInput(Color c);
+	void setInput(sf::Color c);
 
 	/**
 		Proccesses a given Color input and returns an output from [0,1]

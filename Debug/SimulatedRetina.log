@@ -1,18 +1,10 @@
-﻿  Factory.cpp
-d:\jlw387\retina\simulatedretina\factory.cpp(13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\jlw387\retina\simulatedretina\factory.cpp(45): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\jlw387\retina\simulatedretina\quadtree.h(132): warning C4018: '<': signed/unsigned mismatch
-  d:\jlw387\retina\simulatedretina\quadtree.h(126): note: while compiling class template member function 'bool Quadtree<Photoreceptor>::insert(Data<T>)'
-          with
-          [
-              T=Photoreceptor
-          ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(30): note: see reference to function template instantiation 'bool Quadtree<Photoreceptor>::insert(Data<T>)' being compiled
-          with
-          [
-              T=Photoreceptor
-          ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(16): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
+﻿  SimulatedRetina.cpp
+d:\jlw387\retina\simulatedretina\simulatedretina.cpp(44): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+d:\jlw387\retina\simulatedretina\simulatedretina.cpp(73): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+d:\jlw387\retina\simulatedretina\simulatedretina.cpp(76): warning C4244: 'argument': conversion from 'double' to 'sf::Uint8', possible loss of data
+d:\jlw387\retina\simulatedretina\simulatedretina.cpp(77): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+d:\jlw387\retina\simulatedretina\simulatedretina.cpp(80): warning C4244: 'argument': conversion from 'double' to 'sf::Uint8', possible loss of data
+d:\jlw387\retina\simulatedretina\simulatedretina.cpp(81): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
 d:\jlw387\retina\simulatedretina\quadtree.h(173): warning C4018: '<': signed/unsigned mismatch
   d:\jlw387\retina\simulatedretina\quadtree.h(165): note: while compiling class template member function 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)'
           with
@@ -20,10 +12,11 @@ d:\jlw387\retina\simulatedretina\quadtree.h(173): warning C4018: '<': signed/uns
               T=Photoreceptor,
               _Ty=Data<Photoreceptor>
           ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(74): note: see reference to function template instantiation 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)' being compiled
+  d:\jlw387\retina\simulatedretina\simulatedretina.cpp(24): note: see reference to function template instantiation 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)' being compiled
           with
           [
               T=Photoreceptor,
               _Ty=Data<Photoreceptor>
           ]
+  d:\jlw387\retina\simulatedretina\simulatedretina.cpp(14): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
   SimulatedRetina.vcxproj -> D:\jlw387\Retina\SimulatedRetina\Debug\SimulatedRetina.exe
