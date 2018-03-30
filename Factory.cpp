@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Factory.h"
 
-const float Factory::size = 100.0f;
+const float Factory::size = 256.0f;
 
 //Makes a size x size grid of Cones with types randomly chosen with the following probabilities
 //Red: 60%
@@ -14,7 +14,7 @@ const float Factory::size = 100.0f;
 Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 	srand(time(NULL));
 
-	Quadtree<Photoreceptor>* layer = new Quadtree<Photoreceptor>(Region(Point(0,0), Point(size,size)));
+	Quadtree<Photoreceptor>* layer = new Quadtree<Photoreceptor>(Region(Point(0,0), Point(size/2,size/2)));
 	Photoreceptor::PhotoreceptorType type;
 	
 	for (int i = 0; i < size; i++) {
@@ -58,7 +58,7 @@ Quadtree<Opponent>* Factory::createOpponents() {
 			else
 				type = Opponent::OpponentChannelType::BlueYellow;
 
-			Point p = Point(-size / 2 + ((float)j), -size / 2 + ((float)i));
+			Point p = Point(-size / 2.0f + ((float)j), -size / 2.0f + ((float)i));
 			layer->insert(Data<Opponent>(p, new Opponent(type, Opponent::OpponentFieldType::OnCenter, p)));
 		}
 	}
@@ -68,6 +68,8 @@ Quadtree<Opponent>* Factory::createOpponents() {
 
 void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Opponent>& ops) {
 	std::vector<Data<Opponent >> opData = ops.queryRange(ops.getBoundary());
+	int size = opData.size();
+	int i = 0;
 	for (Data<Opponent> op : opData) {
 		std::vector<Photoreceptor*>* photCAdd = new std::vector<Photoreceptor*>();
 		std::vector<Photoreceptor*>* photSAdd = new std::vector<Photoreceptor*>();
@@ -85,5 +87,11 @@ void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Oppon
 		}
 		op.load->setCenterConnections(*photCAdd);
 		op.load->setSurroundConnections(*photSAdd);
+
+		if (((int)((100 * i) / size)) > ((int)((100 * (i-1)) / size))) {
+			std::cout << "Connections are " << (100 * i / size) << "% complete.\n";
+		}
+
+		i++;
 	}
 }

@@ -14,7 +14,7 @@ public:
 	enum class OpponentFieldType { OnCenter, OnSurround };
 
 protected:
-	float SURROUND_CONSTANT = 2;
+	static const float SURROUND_CONSTANT;
 	Point location;
 	OpponentChannelType ocType;
 	OpponentFieldType ofType;

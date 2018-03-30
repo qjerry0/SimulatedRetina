@@ -3,6 +3,8 @@
 #include "Photoreceptor.h"
 #include <vector>
 
+const float Opponent::SURROUND_CONSTANT = 2.0f;
+
 Opponent::Opponent() {}
 
 Opponent::Opponent(OpponentChannelType ot, OpponentFieldType oft){
