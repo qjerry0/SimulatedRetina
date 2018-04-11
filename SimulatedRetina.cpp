@@ -32,165 +32,167 @@ int main()
 		std::getline(std::cin, fileName);
 
 		sf::Image inputImage;
-		bool imageExists = inputImage.loadFromFile(fileName);
+		bool imageExists = inputImage.loadFromFile("Input/" + fileName);
 
 		if (!imageExists) {
 			std::cout << "Cannot find image file. Sorry. \n\n";
-			return 0;
 		}
+		else {
+			double minX = photoreceptorLayer.getBoundary().center.x - photoreceptorLayer.getBoundary().halfSize.x;
+			double sizeX = photoreceptorLayer.getBoundary().halfSize.x * 2;
+			double minY = photoreceptorLayer.getBoundary().center.y - photoreceptorLayer.getBoundary().halfSize.y;
+			double sizeY = photoreceptorLayer.getBoundary().halfSize.y * 2;
 
-		double minX = photoreceptorLayer.getBoundary().center.x - photoreceptorLayer.getBoundary().halfSize.x;
-		double sizeX = photoreceptorLayer.getBoundary().halfSize.x * 2;
-		double minY = photoreceptorLayer.getBoundary().center.y - photoreceptorLayer.getBoundary().halfSize.y;
-		double sizeY = photoreceptorLayer.getBoundary().halfSize.y * 2;
+			sf::Image outputImageCones;
+			outputImageCones.create(Factory::size, Factory::size, sf::Color::Black);
 
-		sf::Image outputImageCones;
-		outputImageCones.create(Factory::size, Factory::size, sf::Color::Black);
+			for (Data<Photoreceptor> dp : photsData) {
+				dp.load->setInput(inputImage.getPixel(((dp.pos.x - minX) / sizeX)*inputImage.getSize().x, ((dp.pos.y - minY) / sizeY)*(inputImage.getSize().y)));
+				double output = dp.load->process();
+				sf::Color oc;
 
-		for (Data<Photoreceptor> dp : photsData) {
-			dp.load->setInput(inputImage.getPixel(((dp.pos.x - minX) / sizeX)*inputImage.getSize().x, ((dp.pos.y - minY) / sizeY)*(inputImage.getSize().y)));
-			double output = dp.load->process();
-			sf::Color oc;
-
-			switch (dp.load->getType()) {
-			case Photoreceptor::PhotoreceptorType::RedCone:
-				oc = sf::Color(output * 255, 0, 0);
-				outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
-				break;
-			case Photoreceptor::PhotoreceptorType::GreenCone:
-				oc = sf::Color(0, output * 255, 0);
-				outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
-				break;
-			case Photoreceptor::PhotoreceptorType::BlueCone:
-				oc = sf::Color(0, 0, output * 255);
-				outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
-				break;
+				switch (dp.load->getType()) {
+				case Photoreceptor::PhotoreceptorType::RedCone:
+					oc = sf::Color(output * 255, 0, 0);
+					outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					break;
+				case Photoreceptor::PhotoreceptorType::GreenCone:
+					oc = sf::Color(0, output * 255, 0);
+					outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					break;
+				case Photoreceptor::PhotoreceptorType::BlueCone:
+					oc = sf::Color(0, 0, output * 255);
+					outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					break;
+				}
 			}
-		}
 
-		std::cout << "Photoreceptors processed.\n";
+			std::cout << "Photoreceptors processed.\n";
 
-		std::vector<Data<Opponent>> opsData = opponentLayer.queryRange(opponentLayer.getBoundary());
+			std::vector<Data<Opponent>> opsData = opponentLayer.queryRange(opponentLayer.getBoundary());
 
-		sf::Image outputImageLuminance;
-		sf::Image outputImageRedGreen;
-		sf::Image outputImageBlueYellow;
+			sf::Image outputImageLuminance;
+			sf::Image outputImageRedGreen;
+			sf::Image outputImageBlueYellow;
 
-		outputImageLuminance.create(Factory::size, Factory::size, sf::Color::Black);
-		outputImageRedGreen.create(Factory::size, Factory::size, sf::Color::Black);
-		outputImageBlueYellow.create(Factory::size, Factory::size, sf::Color::Black);
+			outputImageLuminance.create(Factory::size, Factory::size, sf::Color(0, 0, 0, 0));
+			outputImageRedGreen.create(Factory::size, Factory::size, sf::Color(0, 0, 0, 0));
+			outputImageBlueYellow.create(Factory::size, Factory::size, sf::Color(0, 0, 0, 0));
 
-		minX = opponentLayer.getBoundary().center.x - opponentLayer.getBoundary().halfSize.x;
-		sizeX = opponentLayer.getBoundary().halfSize.x * 2;
-		minY = opponentLayer.getBoundary().center.y - opponentLayer.getBoundary().halfSize.y;
-		sizeY = opponentLayer.getBoundary().halfSize.y * 2;
+			minX = opponentLayer.getBoundary().center.x - opponentLayer.getBoundary().halfSize.x;
+			sizeX = opponentLayer.getBoundary().halfSize.x * 2;
+			minY = opponentLayer.getBoundary().center.y - opponentLayer.getBoundary().halfSize.y;
+			sizeY = opponentLayer.getBoundary().halfSize.y * 2;
 
-		for (Data<Opponent> dop : opsData) {
-			double output = dop.load->process();
-			sf::Color oc;
+			for (Data<Opponent> dop : opsData) {
+				double output = dop.load->process();
+				sf::Color oc;
 
-			switch (dop.load->getChannelType()) {
-			case Opponent::OpponentChannelType::Luminance:
-				oc = sf::Color((int)(output * 255), (int)(output * 255), (int)(output * 255));
-				outputImageLuminance.setPixel(((dop.pos.x - minX) / sizeX)*outputImageLuminance.getSize().x, ((dop.pos.y - minY) / sizeY)*outputImageLuminance.getSize().y, oc);
-				break;
-			case Opponent::OpponentChannelType::RedGreen:
-				oc = sf::Color(128 + output * 127, 128 - output * 127, 0);
-				outputImageRedGreen.setPixel(((dop.pos.x - minX) / sizeX)*outputImageRedGreen.getSize().x, ((dop.pos.y - minY) / sizeY)*outputImageRedGreen.getSize().y, oc);
-				break;
-			case Opponent::OpponentChannelType::BlueYellow:
-				oc = sf::Color(128 + output * 127, 128 + output * 127, 128 - output * 127);
-				outputImageBlueYellow.setPixel(((dop.pos.x - minX) / sizeX)*outputImageBlueYellow.getSize().x, ((dop.pos.y - minY) / sizeY)*outputImageBlueYellow.getSize().y, oc);
-				break;
+				switch (dop.load->getChannelType()) {
+				case Opponent::OpponentChannelType::Luminance:
+					oc = sf::Color((int)(output * 255), (int)(output * 255), (int)(output * 255));
+					outputImageLuminance.setPixel(((dop.pos.x - minX) / sizeX)*outputImageLuminance.getSize().x, ((dop.pos.y - minY) / sizeY)*outputImageLuminance.getSize().y, oc);
+					break;
+				case Opponent::OpponentChannelType::RedGreen:
+					oc = sf::Color(output > 0 ? output*255 : 0, output < 0 ? -output * 255 : 0, 0);
+					outputImageRedGreen.setPixel(((dop.pos.x - minX) / sizeX)*outputImageRedGreen.getSize().x, ((dop.pos.y - minY) / sizeY)*outputImageRedGreen.getSize().y, oc);
+					break;
+				case Opponent::OpponentChannelType::BlueYellow:
+					oc = sf::Color(output > 0 ? output * 255 : 0, output > 0 ? output * 255 : 0, output < 0 ? -output * 255 : 0);
+					outputImageBlueYellow.setPixel(((dop.pos.x - minX) / sizeX)*outputImageBlueYellow.getSize().x, ((dop.pos.y - minY) / sizeY)*outputImageBlueYellow.getSize().y, oc);
+					break;
+				}
 			}
-		}
 
-		std::cout << "Opponents processed.\n";
+			std::cout << "Opponents processed.\n";
 
-		sf::Texture outputCTexture;
-		outputCTexture.loadFromImage(outputImageCones);
+			sf::Texture outputCTexture;
+			outputCTexture.loadFromImage(outputImageCones);
 
-		sf::Texture outputLTexture;
-		outputLTexture.loadFromImage(outputImageLuminance);
+			sf::Texture outputLTexture;
+			outputLTexture.loadFromImage(outputImageLuminance);
 
-		sf::Texture outputRGTexture;
-		outputRGTexture.loadFromImage(outputImageRedGreen);
+			sf::Texture outputRGTexture;
+			outputRGTexture.loadFromImage(outputImageRedGreen);
 
-		sf::Texture outputBYTexture;
-		outputBYTexture.loadFromImage(outputImageBlueYellow);
+			sf::Texture outputBYTexture;
+			outputBYTexture.loadFromImage(outputImageBlueYellow);
 
-		sf::Sprite coneSprite;
-		coneSprite.setTexture(outputCTexture);
-		if (outputCTexture.getSize().x < 200)
-			coneSprite.setScale(200 / outputImageCones.getSize().x, 200 / outputImageCones.getSize().y);
+			sf::Sprite coneSprite;
+			coneSprite.setTexture(outputCTexture);
+			if (outputCTexture.getSize().x < 200)
+				coneSprite.setScale(200 / outputImageCones.getSize().x, 200 / outputImageCones.getSize().y);
 
-		sf::Sprite luminanceSprite;
-		luminanceSprite.setTexture(outputLTexture);
-		if (outputLTexture.getSize().x < 200)
-			luminanceSprite.setScale(200 / outputImageLuminance.getSize().x, 200 / outputImageLuminance.getSize().y);
+			sf::Sprite luminanceSprite;
+			luminanceSprite.setTexture(outputLTexture);
+			if (outputLTexture.getSize().x < 200)
+				luminanceSprite.setScale(200 / outputImageLuminance.getSize().x, 200 / outputImageLuminance.getSize().y);
 
-		sf::Sprite redGreenSprite;
-		redGreenSprite.setTexture(outputRGTexture);
-		if (outputRGTexture.getSize().x < 200)
-			redGreenSprite.setScale(200 / outputImageRedGreen.getSize().x, 200 / outputImageRedGreen.getSize().y);
+			sf::Sprite redGreenSprite;
+			redGreenSprite.setTexture(outputRGTexture);
+			if (outputRGTexture.getSize().x < 200)
+				redGreenSprite.setScale(200 / outputImageRedGreen.getSize().x, 200 / outputImageRedGreen.getSize().y);
 
-		sf::Sprite blueYellowSprite;
-		blueYellowSprite.setTexture(outputBYTexture);
-		if (outputBYTexture.getSize().x < 200)
-			blueYellowSprite.setScale(200 / outputImageBlueYellow.getSize().x, 200 / outputImageBlueYellow.getSize().y);
+			sf::Sprite blueYellowSprite;
+			blueYellowSprite.setTexture(outputBYTexture);
+			if (outputBYTexture.getSize().x < 200)
+				blueYellowSprite.setScale(200 / outputImageBlueYellow.getSize().x, 200 / outputImageBlueYellow.getSize().y);
 
-		outputImageCones.saveToFile("Cones.png");
-		outputImageLuminance.saveToFile("Luminance.png");
-		outputImageRedGreen.saveToFile("RedGreen.png");
-		outputImageBlueYellow.saveToFile("BlueYellow.png");
+			std::string outputString = "Output/" + fileName.erase(fileName.size() - 4, fileName.size());
 
-		sf::RenderWindow windowCones(sf::VideoMode(coneSprite.getScale().x * outputCTexture.getSize().x, coneSprite.getScale().y * outputCTexture.getSize().y), "Cones Output");
-		sf::RenderWindow windowLuminance(sf::VideoMode(luminanceSprite.getScale().x * outputLTexture.getSize().x, luminanceSprite.getScale().y * outputLTexture.getSize().y), "Luminance Output");
-		sf::RenderWindow windowRedGreen(sf::VideoMode(redGreenSprite.getScale().x * outputRGTexture.getSize().x, redGreenSprite.getScale().y * outputRGTexture.getSize().y), "RedGreen Output");
-		sf::RenderWindow windowBlueYellow(sf::VideoMode(blueYellowSprite.getScale().x * outputBYTexture.getSize().x, blueYellowSprite.getScale().y * outputBYTexture.getSize().y), "BlueYellow Output");
+			outputImageCones.saveToFile(outputString + "_Cones.png");
+			outputImageLuminance.saveToFile(outputString + "_Luminance.png");
+			outputImageRedGreen.saveToFile(outputString + "_RedGreen.png");
+			outputImageBlueYellow.saveToFile(outputString + "_BlueYellow.png");
 
-		while (windowCones.isOpen() || windowLuminance.isOpen() || windowRedGreen.isOpen() || windowBlueYellow.isOpen())
-		{
-			sf::Event event;
-			while (windowCones.pollEvent(event))
+			sf::RenderWindow windowCones(sf::VideoMode(coneSprite.getScale().x * outputCTexture.getSize().x, coneSprite.getScale().y * outputCTexture.getSize().y), "Cones Output");
+			sf::RenderWindow windowLuminance(sf::VideoMode(luminanceSprite.getScale().x * outputLTexture.getSize().x, luminanceSprite.getScale().y * outputLTexture.getSize().y), "Luminance Output");
+			sf::RenderWindow windowRedGreen(sf::VideoMode(redGreenSprite.getScale().x * outputRGTexture.getSize().x, redGreenSprite.getScale().y * outputRGTexture.getSize().y), "RedGreen Output");
+			sf::RenderWindow windowBlueYellow(sf::VideoMode(blueYellowSprite.getScale().x * outputBYTexture.getSize().x, blueYellowSprite.getScale().y * outputBYTexture.getSize().y), "BlueYellow Output");
+
+			while (windowCones.isOpen() || windowLuminance.isOpen() || windowRedGreen.isOpen() || windowBlueYellow.isOpen())
 			{
-				if (event.type == sf::Event::Closed)
-					windowCones.close();
+				sf::Event event;
+				while (windowCones.pollEvent(event))
+				{
+					if (event.type == sf::Event::Closed)
+						windowCones.close();
+				}
+
+				while (windowLuminance.pollEvent(event))
+				{
+					if (event.type == sf::Event::Closed)
+						windowLuminance.close();
+				}
+
+				while (windowRedGreen.pollEvent(event))
+				{
+					if (event.type == sf::Event::Closed)
+						windowRedGreen.close();
+				}
+
+				while (windowBlueYellow.pollEvent(event))
+				{
+					if (event.type == sf::Event::Closed)
+						windowBlueYellow.close();
+				}
+
+				windowCones.clear();
+				windowCones.draw(coneSprite);
+				windowCones.display();
+
+				windowLuminance.clear();
+				windowLuminance.draw(luminanceSprite);
+				windowLuminance.display();
+
+				windowRedGreen.clear();
+				windowRedGreen.draw(redGreenSprite);
+				windowRedGreen.display();
+
+				windowBlueYellow.clear();
+				windowBlueYellow.draw(blueYellowSprite);
+				windowBlueYellow.display();
 			}
-
-			while (windowLuminance.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-					windowLuminance.close();
-			}
-
-			while (windowRedGreen.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-					windowRedGreen.close();
-			}
-
-			while (windowBlueYellow.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-					windowBlueYellow.close();
-			}
-
-			windowCones.clear();
-			windowCones.draw(coneSprite);
-			windowCones.display();
-
-			windowLuminance.clear();
-			windowLuminance.draw(luminanceSprite);
-			windowLuminance.display();
-
-			windowRedGreen.clear();
-			windowRedGreen.draw(redGreenSprite);
-			windowRedGreen.display();
-
-			windowBlueYellow.clear();
-			windowBlueYellow.draw(blueYellowSprite);
-			windowBlueYellow.display();
 		}
 
 		std::cout << "Enter another image? (1: yes, 0: no)\n";

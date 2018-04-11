@@ -87,7 +87,10 @@ double Opponent::process(){
 	sub1 /= SURROUND_CONSTANT;
 	sub2 /= SURROUND_CONSTANT;
 
-	output = (sum1 - sub1) - (sum2 - sub2);
+	double channel1 = sum1 - sub1 > 0 ? sum1 - sub1 : 0;
+	double channel2 = sum2 - sub2 > 0 ? sum2 - sub2 : 0;
+
+	output = channel1 - channel2;
 	return output;
 }
 
