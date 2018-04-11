@@ -2,9 +2,10 @@
 #include <random>
 #include <ctime>
 #include <iostream>
+#include "ppl.h"
 #include "Factory.h"
 
-const float Factory::size = 256.0f;
+const float Factory::size = 512.0f;
 
 //Makes a size x size grid of Cones with types randomly chosen with the following probabilities
 //Red: 60%
@@ -68,30 +69,31 @@ Quadtree<Opponent>* Factory::createOpponents() {
 
 void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Opponent>& ops) {
 	std::vector<Data<Opponent >> opData = ops.queryRange(ops.getBoundary());
-	int size = opData.size();
+	int opsize = opData.size();
 	int i = 0;
-	for (Data<Opponent> op : opData) {
-		std::vector<Photoreceptor*>* photCAdd = new std::vector<Photoreceptor*>();
-		std::vector<Photoreceptor*>* photSAdd = new std::vector<Photoreceptor*>();
-		double rad = op.load->getRange();
-		std::vector<Data<Photoreceptor>> photData = photquad.queryRange(Region(op.load->getPoint(), Point(rad,rad)));
-		for (Data<Photoreceptor> dp : photData) {
-			if (op.load->isCompatible(dp.load)) {
-				if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad/2) {
-					photCAdd->push_back(dp.load);
-				}
-				else if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad) {
-					photSAdd->push_back(dp.load);
+	concurrency::parallel_for_each(opData.begin(), opData.end(), [&](Data<Opponent> op) {
+			std::vector<Photoreceptor*>* photCAdd = new std::vector<Photoreceptor*>();
+			std::vector<Photoreceptor*>* photSAdd = new std::vector<Photoreceptor*>();
+			double rad = op.load->getRange();
+			std::vector<Data<Photoreceptor>> photData = photquad.queryRange(Region(op.load->getPoint(), Point(rad,rad)));
+			for (Data<Photoreceptor> dp : photData) {
+				if (op.load->isCompatible(dp.load)) {
+					if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad/2) {
+						photCAdd->push_back(dp.load);
+					}
+					else if ((op.load->getPoint() - dp.load->getPoint()).magnitude() <= rad) {
+						photSAdd->push_back(dp.load);
+					}
 				}
 			}
-		}
-		op.load->setCenterConnections(*photCAdd);
-		op.load->setSurroundConnections(*photSAdd);
+			op.load->setCenterConnections(*photCAdd);
+			op.load->setSurroundConnections(*photSAdd);
 
-		if (((int)((100 * i) / size)) > ((int)((100 * (i-1)) / size))) {
-			std::cout << "Connections are " << (100 * i / size) << "% complete.\n";
-		}
+			if (((int)((100 * i) / opsize)) > ((int)((100 * (i-1)) / opsize)) && ((int)((100 * i) / opsize)) % 5 == 0) {
+				std::cout << "Connections are " << ((int)((100 * i) / opsize)) << "% complete.\n";
+			}
 
-		i++;
-	}
+			i++;
+		}
+	);
 }

@@ -1,18 +1,18 @@
 ﻿  Factory.cpp
-d:\jlw387\retina\simulatedretina\factory.cpp(15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-d:\jlw387\retina\simulatedretina\factory.cpp(46): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\jlw387\retina\simulatedretina\factory.cpp(16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\jlw387\retina\simulatedretina\factory.cpp(47): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 d:\jlw387\retina\simulatedretina\quadtree.h(132): warning C4018: '<': signed/unsigned mismatch
   d:\jlw387\retina\simulatedretina\quadtree.h(126): note: while compiling class template member function 'bool Quadtree<Photoreceptor>::insert(Data<T>)'
           with
           [
               T=Photoreceptor
           ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(31): note: see reference to function template instantiation 'bool Quadtree<Photoreceptor>::insert(Data<T>)' being compiled
+  d:\jlw387\retina\simulatedretina\factory.cpp(32): note: see reference to function template instantiation 'bool Quadtree<Photoreceptor>::insert(Data<T>)' being compiled
           with
           [
               T=Photoreceptor
           ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(17): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
+  d:\jlw387\retina\simulatedretina\factory.cpp(18): note: see reference to class template instantiation 'Quadtree<Photoreceptor>' being compiled
 d:\jlw387\retina\simulatedretina\quadtree.h(173): warning C4018: '<': signed/unsigned mismatch
   d:\jlw387\retina\simulatedretina\quadtree.h(165): note: while compiling class template member function 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)'
           with
@@ -20,7 +20,7 @@ d:\jlw387\retina\simulatedretina\quadtree.h(173): warning C4018: '<': signed/uns
               T=Photoreceptor,
               _Ty=Data<Photoreceptor>
           ]
-  d:\jlw387\retina\simulatedretina\factory.cpp(77): note: see reference to function template instantiation 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)' being compiled
+  d:\jlw387\retina\simulatedretina\factory.cpp(78): note: see reference to function template instantiation 'std::vector<Data<T>,std::allocator<_Ty>> Quadtree<T>::queryRange(Region)' being compiled
           with
           [
               T=Photoreceptor,

@@ -27,6 +27,8 @@ int main()
 
 		std::vector<Data<Photoreceptor>> photsData = photoreceptorLayer.queryRange(photoreceptorLayer.getBoundary());
 
+		std::cout << photsData.size() << "Photoreceptors queried.\n\n";
+
 		std::cout << "Please enter the name of the image to be processed: ";
 		std::string fileName;
 		std::getline(std::cin, fileName);
@@ -54,15 +56,18 @@ int main()
 				switch (dp.load->getType()) {
 				case Photoreceptor::PhotoreceptorType::RedCone:
 					oc = sf::Color(output * 255, 0, 0);
-					outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					//outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					outputImageCones.setPixel(dp.pos.x - minX, dp.pos.y - minY, oc);
 					break;
 				case Photoreceptor::PhotoreceptorType::GreenCone:
 					oc = sf::Color(0, output * 255, 0);
-					outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					//outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					outputImageCones.setPixel(dp.pos.x - minX, dp.pos.y - minY, oc);
 					break;
 				case Photoreceptor::PhotoreceptorType::BlueCone:
 					oc = sf::Color(0, 0, output * 255);
-					outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					//outputImageCones.setPixel(((dp.pos.x - minX) / sizeX)*outputImageCones.getSize().x, ((dp.pos.y - minY) / sizeY)*outputImageCones.getSize().y, oc);
+					outputImageCones.setPixel(dp.pos.x - minX, dp.pos.y - minY, oc);
 					break;
 				}
 			}
