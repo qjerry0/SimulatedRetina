@@ -111,7 +111,7 @@ Opponent::OpponentFieldType Opponent::getFieldType(){
 }
 
 double Opponent::getRange() {
-	return 5;
+	return 5.0 + sqrt(location.x * location.x + location.y *location.y) / 3.0;
 }
 
 bool Opponent::isCompatible(Photoreceptor* p) {
