@@ -5,7 +5,7 @@
 #include "ppl.h"
 #include "Factory.h"
 
-const float Factory::size = 64.0f;
+const float Factory::size = 512.0f;
 
 //Makes a size x size grid of Cones with types randomly chosen with the following probabilities
 //Red: 60%
