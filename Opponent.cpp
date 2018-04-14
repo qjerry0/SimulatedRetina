@@ -3,7 +3,7 @@
 #include "Photoreceptor.h"
 #include <vector>
 
-const float Opponent::SURROUND_CONSTANT = 2.0f;
+const float Opponent::SURROUND_CONSTANT = 1.0f;
 
 Opponent::Opponent() {}
 
@@ -111,7 +111,7 @@ Opponent::OpponentFieldType Opponent::getFieldType(){
 }
 
 double Opponent::getRange() {
-	return 5.0 + sqrt(location.x * location.x + location.y *location.y) / 3.0;
+	return 5.0; //+ location.magnitude()/ 3.0;
 }
 
 bool Opponent::isCompatible(Photoreceptor* p) {
