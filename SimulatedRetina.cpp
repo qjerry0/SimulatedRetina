@@ -28,7 +28,7 @@ int main()
 
 		std::vector<Data<Photoreceptor>> photsData = photoreceptorLayer.queryRange(photoreceptorLayer.getBoundary());
 
-		std::cout << photsData.size() << "Photoreceptors queried.\n\n";
+		std::cout << photsData.size() << " Photoreceptors queried.\n\n";
 
 		std::cout << "Please enter the name of the image to be processed: ";
 		std::string fileName;
@@ -78,15 +78,21 @@ int main()
 			std::vector<Data<Opponent>> opsData = opponentLayer.queryRange(opponentLayer.getBoundary());
 
 			std::ofstream outputFile;
-			outputFile.open("Output/ActivationData.txt");
+			outputFile.open("Output/OpponentActivationData.txt",std::ofstream::trunc);
 
-			for (Data<Opponent> dop : opsData) {
-				double output = dop.load->process();
+			if (outputFile.is_open()) {
+				Region boundary = opponentLayer.getBoundary();
+				outputFile << boundary.center.x << "," << boundary.center.y << "," << boundary.halfSize.x << "," << boundary.halfSize.y << "\n";
 
-				outputFile << "<" << dop.pos.x << "," << dop.pos.y << "," << output << ">\n";
+				for (Data<Opponent> dop : opsData) {
+					double output = dop.load->process();
+
+					if (outputFile.is_open())
+						outputFile << dop.load->toString() << "\n";
+				}
+
+				outputFile.close();
 			}
-
-			outputFile.close();
 
 			std::cout << "Opponents processed.\n";
 

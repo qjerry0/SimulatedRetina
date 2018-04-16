@@ -124,3 +124,21 @@ void Opponent::resetConnections(){
 	inputCenterConnectedCells.clear();
 	inputSurroundConnectedCells.clear();
 }
+
+std::string Opponent::toString() {
+	std::string returnString = "<" + std::to_string(location.x) + "," + std::to_string(location.y) + ","; 
+	switch (ocType) {
+	case OpponentChannelType::Luminance:
+		returnString = returnString + "L";
+		break;
+	case OpponentChannelType::RedGreen:
+		returnString = returnString + "RG";
+		break;
+	case OpponentChannelType::BlueYellow:
+		returnString = returnString + "BY";
+		break;
+	}
+
+	returnString = returnString + "," + std::to_string(output) + ">";
+	return returnString;
+}

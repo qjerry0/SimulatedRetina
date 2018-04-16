@@ -115,6 +115,8 @@ public:
 	*/
 	void resetConnections();
 
+
+	std::string toString();
 };
 
 #endif 
