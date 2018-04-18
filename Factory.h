@@ -22,6 +22,9 @@ public:
 	*/
 	static Quadtree<Photoreceptor>* createPhotoreceptors();
 
+
+	static void createPhotoreceptor(Quadtree<Photoreceptor>* layer, int i, int j);
+
 	/**
 		Generates all opponent processors in the model
 

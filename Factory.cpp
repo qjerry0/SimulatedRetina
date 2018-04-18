@@ -16,24 +16,28 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 	srand(time(NULL));
 
 	Quadtree<Photoreceptor>* layer = new Quadtree<Photoreceptor>(Region(Point(0,0), Point(size/2,size/2)));
-	Photoreceptor::PhotoreceptorType type;
 	
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++){
-			int typeCheck = rand() % 10;
-			if (typeCheck < 6)
-				type = Photoreceptor::PhotoreceptorType::RedCone;
-			else if (typeCheck < 9)
-				type = Photoreceptor::PhotoreceptorType::GreenCone;
-			else
-				type = Photoreceptor::PhotoreceptorType::BlueCone;
-
-			Point p = Point(-size / 2.0f + ((float)j), -size / 2.0f + ((float)i));
-			layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
+			Factory::createPhotoreceptor(layer, i, j);
 		}
 	}
 
 	return layer;
+}
+void Factory::createPhotoreceptor(Quadtree<Photoreceptor>* layer, int i, int j) {
+	Photoreceptor::PhotoreceptorType type;
+	int typeCheck = rand() % 10;
+	int xrand = rand();
+	int yrand = rand();
+	if (typeCheck < 6)
+		type = Photoreceptor::PhotoreceptorType::RedCone;
+	else if (typeCheck < 9)
+		type = Photoreceptor::PhotoreceptorType::GreenCone;
+	else
+		type = Photoreceptor::PhotoreceptorType::BlueCone;
+	Point p = Point(-size / 2.0f + ((float)j) + xrand, -size / 2.0f + ((float)i) + yrand);
+	layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
 }
 
 //Makes a size x size grid of OpponentProcessors with channel types randomly chosen with the following probabilities
