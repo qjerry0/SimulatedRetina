@@ -8,8 +8,10 @@
 #include "Factory.h"
 #include "Quadtree.h"
 #include "SFML\Graphics.hpp"
+#include "Image.cpp"
+#include <fstream>
 
-int main()
+int main(int argc, char *argv[])
 {
 
 	std::cout << "Began creating retina. \n";
@@ -19,7 +21,7 @@ int main()
 	std::cout << "Photoreceptors created.\n==========================================\n";
 
 	Quadtree<Opponent> opponentLayer = *Factory::createOpponents();
-	
+
 	std::cout << "Opponents created.\n==============================================\n";
 
 	Factory::connectOpponents(photoreceptorLayer, opponentLayer);
@@ -210,5 +212,10 @@ int main()
 		if (result == 0)
 			return 0;
 	}
+
+	Image img("input.png");
+	img.write("output.png");
+	return 0;
+
 }
 

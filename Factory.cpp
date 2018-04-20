@@ -117,6 +117,7 @@ void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Oppon
 			}
 
 			i++;
-		}
-	);
+	};
+		op.load->setCenterConnections(*photAdd);
+	}
 }
