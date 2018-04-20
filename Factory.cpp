@@ -5,7 +5,33 @@
 #include "ppl.h"
 #include "Factory.h"
 
-const float Factory::size = 128.0f;
+const float Factory::size = 64.0f;
+const float Factory::maxDensityPhotoreceptor = 16.0f;
+const float Factory::maxDensityGanglion = 4.0f;
+const double Factory::maxDistance = sqrt(Factory::size*Factory::size / 4 + Factory::size*Factory::size / 4);
+
+int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
+		
+	//number of photoreceptors generated is inversely proportional to distance from (0,0)
+	if(isPhotoreceptor){
+		int pos_i = i >= 0 ? i : -i;
+		int pos_j = j >= 0 ? j : -j;
+		double dist = sqrt(i*i + j*j);
+		int num = maxDensityPhotoreceptor * (1.0 - (dist / maxDistance) / 0.75);
+		return num;
+	}
+	else {
+
+		int pos_i = i >= 0 ? i : -i;
+		int pos_j = j >= 0 ? j : -j;
+		double dist = sqrt(i*i + j*j);
+		int num = maxDensityGanglion * (1.0 - (dist / maxDistance)) + 2.0;
+		return num;
+	}
+	
+	//std::cout << "num at this cell is = " << num << "\n";
+	
+}
 
 //Makes a size x size grid of Cones with types randomly chosen with the following probabilities
 //Red: 60%
@@ -16,25 +42,36 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 	srand(time(NULL));
 
 	Quadtree<Photoreceptor>* layer = new Quadtree<Photoreceptor>(Region(Point(0,0), Point(size/2,size/2)));
-	Photoreceptor::PhotoreceptorType type;
-	
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++){
-			int typeCheck = rand() % 10;
-			if (typeCheck < 6)
-				type = Photoreceptor::PhotoreceptorType::RedCone;
-			else if (typeCheck < 9)
-				type = Photoreceptor::PhotoreceptorType::GreenCone;
-			else
-				type = Photoreceptor::PhotoreceptorType::BlueCone;
 
-			Point p = Point(-size / 2.0f + ((float)j), -size / 2.0f + ((float)i));
-			layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
+			//create number of photoreceptors based on density
+			int num = numberOfCells(i, j, true);
+			for (int k = 0; k < 2; k++) {
+				createPhotoreceptor(layer, i, j);
+			}
 		}
 	}
 
 	return layer;
 }
+
+void Factory::createPhotoreceptor(Quadtree<Photoreceptor>* layer, int i, int j) {
+	Photoreceptor::PhotoreceptorType type;
+	int typeCheck = rand() % 10;
+	int xrand = rand() / double(RAND_MAX);
+	int yrand = rand() / double(RAND_MAX);
+	if (typeCheck < 6)
+		 type = Photoreceptor::PhotoreceptorType::RedCone;
+	else if (typeCheck < 9)
+		 type = Photoreceptor::PhotoreceptorType::GreenCone;
+	else
+		 type = Photoreceptor::PhotoreceptorType::BlueCone;
+	Point p = Point(-size / 2.0f + ((float)j) + xrand, -size / 2.0f + ((float)i) + yrand);
+	layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
+	
+}
+
 
 //Makes a size x size grid of OpponentProcessors with channel types randomly chosen with the following probabilities
 //Luminance: 60%
@@ -51,20 +88,30 @@ Quadtree<Opponent>* Factory::createOpponents() {
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			int typeCheck = rand() % 10;
-			if (typeCheck < 6)
-				type = Opponent::OpponentChannelType::Luminance;
-			else if (typeCheck < 9)
-				type = Opponent::OpponentChannelType::RedGreen;
-			else
-				type = Opponent::OpponentChannelType::BlueYellow;
-
-			Point p = Point(-size / 2.0f + ((float)j), -size / 2.0f + ((float)i));
-			layer->insert(Data<Opponent>(p, new Opponent(type, Opponent::OpponentFieldType::OnCenter, p)));
+			int num = numberOfCells(i, j, false);
+			for (int k = 0; k < num; k++) {
+				createOpponent(layer, i, j);
+			}
 		}
 	}
 
 	return layer;
+}
+
+void Factory::createOpponent(Quadtree<Opponent>* layer, int i, int j) {
+	Opponent::OpponentChannelType type;
+	int typeCheck = rand() % 10;
+	int xrand = rand() / double(RAND_MAX);
+	int yrand = rand() / double(RAND_MAX);
+	if (typeCheck < 6)
+		type = Opponent::OpponentChannelType::Luminance;
+	else if (typeCheck < 9)
+		type = Opponent::OpponentChannelType::RedGreen;
+	else
+		type = Opponent::OpponentChannelType::BlueYellow;
+
+	Point p = Point(-size / 2.0f + ((float)j) + xrand, -size / 2.0f + ((float)i) + yrand);
+	layer->insert(Data<Opponent>(p, new Opponent(type, Opponent::OpponentFieldType::OnCenter, p)));
 }
 
 void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Opponent>& ops) {

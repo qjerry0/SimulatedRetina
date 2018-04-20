@@ -5,6 +5,7 @@
 #include "Opponent.h"
 #include "Photoreceptor.h"
 #include "Quadtree.h"
+#include "Data.h"
 
 #ifndef FACTORY
 #define FACTORY
@@ -14,6 +15,9 @@ class Factory {
 
 public:
 	static const float size;
+	static const float maxDensityPhotoreceptor;
+	static const float maxDensityGanglion;
+	static const double maxDistance;
 
 	/**
 	Generates all photoreceptors in the model
@@ -22,12 +26,19 @@ public:
 	*/
 	static Quadtree<Photoreceptor>* createPhotoreceptors();
 
+	static int Factory::numberOfCells(int i, int j, bool isPhotoreceptor);
+
+	static void createPhotoreceptor(Quadtree<Photoreceptor>* layer, int i, int j);
+
+
 	/**
 		Generates all opponent processors in the model
 
 		@return The opponent processors generated
 	*/
 	static Quadtree<Opponent>* createOpponents();
+
+	static void createOpponent(Quadtree<Opponent>* layer, int i, int j);
 
 	/**
 		Connects all the opponent processors with photoreceptors
