@@ -5,7 +5,7 @@
 #include "ppl.h"
 #include "Factory.h"
 
-const float Factory::size = 64.0f;
+const float Factory::size = 256.0f;
 const float Factory::maxDensityPhotoreceptor = 16.0f;
 const float Factory::maxDensityGanglion = 4.0f;
 const double Factory::maxDistance = sqrt(Factory::size*Factory::size / 4 + Factory::size*Factory::size / 4);
@@ -15,10 +15,11 @@ int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
 	int real_i = i - size / 2;
 	int real_j = j - size / 2;
 	double dist = sqrt(real_i*real_i + real_j*real_j);
+	dist = dist > maxDistance ? maxDistance : dist;
 
 	//number of photoreceptors generated is inversely proportional to distance from (0,0)
 	if(isPhotoreceptor){
-		return maxDensityPhotoreceptor * (1.0 - (dist / maxDistance) / 0.75);
+		return maxDensityPhotoreceptor * (1.0 - (dist / maxDistance) / 0.75) + 1.0;
 	}
 	else {
 		return maxDensityGanglion * (1.0 - (dist / maxDistance)) + 2.0;
@@ -42,7 +43,7 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 
 			//create number of photoreceptors based on density
 			int num = numberOfCells(i, j, true);
-			for (int k = 0; k < 2; k++) {
+			for (int k = 0; k < num; k++) {
 				createPhotoreceptor(layer, i, j);
 			}
 		}
@@ -54,8 +55,8 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 void Factory::createPhotoreceptor(Quadtree<Photoreceptor>* layer, int i, int j) {
 	Photoreceptor::PhotoreceptorType type;
 	int typeCheck = rand() % 10;
-	int xrand = rand() / double(RAND_MAX);
-	int yrand = rand() / double(RAND_MAX);
+	double xrand = rand() / double(RAND_MAX);
+	double yrand = rand() / double(RAND_MAX);
 	if (typeCheck < 6)
 		 type = Photoreceptor::PhotoreceptorType::RedCone;
 	else if (typeCheck < 9)
@@ -96,8 +97,8 @@ Quadtree<Opponent>* Factory::createOpponents() {
 void Factory::createOpponent(Quadtree<Opponent>* layer, int i, int j) {
 	Opponent::OpponentChannelType type;
 	int typeCheck = rand() % 10;
-	int xrand = rand() / double(RAND_MAX);
-	int yrand = rand() / double(RAND_MAX);
+	double xrand = rand() / double(RAND_MAX);
+	double yrand = rand() / double(RAND_MAX);
 	if (typeCheck < 6)
 		type = Opponent::OpponentChannelType::Luminance;
 	else if (typeCheck < 9)

@@ -25,6 +25,11 @@ int main()
 	std::cout << "Opponents connected.\n===============================================\n";
 
 	while (true) {
+		Region testRegion((photoreceptorLayer.getBoundary().center - photoreceptorLayer.getBoundary().halfSize*(7.0/8.0), photoreceptorLayer.getBoundary().halfSize/8.0));
+		std::cout << "Top Left Region Photoreceptor Count: " << photoreceptorLayer.queryRange(testRegion).size() << "\n";
+
+		testRegion = Region(photoreceptorLayer.getBoundary().center, photoreceptorLayer.getBoundary().halfSize/8.0);
+		std::cout << "Center Region Photoreceptor COunt: " << photoreceptorLayer.queryRange(testRegion).size() << "\n";
 
 		std::vector<Data<Photoreceptor>> photsData = photoreceptorLayer.queryRange(photoreceptorLayer.getBoundary());
 
