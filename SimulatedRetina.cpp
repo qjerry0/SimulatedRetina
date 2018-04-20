@@ -11,6 +11,9 @@
 
 int main()
 {
+
+	std::cout << "Began creating retina. \n";
+
 	Quadtree<Photoreceptor> photoreceptorLayer = *Factory::createPhotoreceptors();
 
 	std::cout << "Photoreceptors created.\n==========================================\n";

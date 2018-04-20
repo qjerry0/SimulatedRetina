@@ -14,6 +14,8 @@ class Factory {
 
 public:
 	static const float size;
+	static const float maxDensity;
+	static const double maxDistance;
 
 	/**
 	Generates all photoreceptors in the model
@@ -23,6 +25,23 @@ public:
 	static Quadtree<Photoreceptor>* createPhotoreceptors();
 
 
+	/**
+	Computes the number of photoreceptors to be generated
+
+	@return The photoreceptors generated
+	@param i The width offset of the pixel
+	@param j The height offset of the pixel
+	*/
+	static int Factory::numberOfPhotoreceptors(int i, int j);
+
+	/**
+	Generates a photoreceptor in the model
+
+	@return The photoreceptors generated
+	@param layer Layer containing the photoreceptors
+	@param i The width offset of the pixel
+	@param j The height offset of the pixel
+	*/
 	static void createPhotoreceptor(Quadtree<Photoreceptor>* layer, int i, int j);
 
 	/**

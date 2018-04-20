@@ -4,8 +4,22 @@
 #include <iostream>
 #include "ppl.h"
 #include "Factory.h"
+#include <cmath>
 
-const float Factory::size = 512.0f;
+const float Factory::size = 16.0f;
+const float Factory::maxDensity = 16.0f;
+const double Factory::maxDistance = sqrt(Factory::size*Factory::size / 4 + Factory::size*Factory::size / 4);
+
+int Factory::numberOfPhotoreceptors(int i, int j) {
+	//number of photoreceptors generated is inversely proportional to distance from (0,0)
+	int pos_i = i >= 0 ? i : -i;
+	int pos_j = j >= 0 ? j : -j;
+	double dist = sqrt(i*i + j*j);
+	int num = maxDensity * (1.0 - dist / maxDistance);
+
+	//std::cout << "num at this cell is = " << num << "\n";
+	return num;
+}
 
 //Makes a size x size grid of Cones with types randomly chosen with the following probabilities
 //Red: 60%
@@ -19,24 +33,29 @@ Quadtree<Photoreceptor>* Factory::createPhotoreceptors() {
 	
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++){
-			Factory::createPhotoreceptor(layer, i, j);
+			//std::cout << "Creating photoreceptors with i = " << i << " j = " << j << "\n";
+			//for each pixel (i,j), generate k photoreceptors
+			//int num = numberOfPhotoreceptors(i, j);
+			for (int k = 0; i < 1; k++) {
+				Factory::createPhotoreceptor(layer, i, j);
+			}
 		}
 	}
-
 	return layer;
 }
+
 void Factory::createPhotoreceptor(Quadtree<Photoreceptor>* layer, int i, int j) {
 	Photoreceptor::PhotoreceptorType type;
 	int typeCheck = rand() % 10;
-	int xrand = rand();
-	int yrand = rand();
+	float xrand = rand() / double(RAND_MAX);
+	float yrand = rand() / double(RAND_MAX);
 	if (typeCheck < 6)
 		type = Photoreceptor::PhotoreceptorType::RedCone;
 	else if (typeCheck < 9)
 		type = Photoreceptor::PhotoreceptorType::GreenCone;
 	else
 		type = Photoreceptor::PhotoreceptorType::BlueCone;
-	Point p = Point(-size / 2.0f + ((float)j) + xrand, -size / 2.0f + ((float)i) + yrand);
+	Point p = Point(-size / 2.0f + ((float)j) + xrand, -size / 2.0f + ((float)i)+ yrand);
 	layer->insert(Data<Photoreceptor>(p, new Photoreceptor(type, p)));
 }
 
