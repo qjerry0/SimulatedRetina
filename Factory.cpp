@@ -12,21 +12,16 @@ const double Factory::maxDistance = sqrt(Factory::size*Factory::size / 4 + Facto
 
 int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
 		
+	int real_i = i - size / 2;
+	int real_j = j - size / 2;
+	double dist = sqrt(real_i*real_i + real_j*real_j);
+
 	//number of photoreceptors generated is inversely proportional to distance from (0,0)
 	if(isPhotoreceptor){
-		int pos_i = i >= 0 ? i : -i;
-		int pos_j = j >= 0 ? j : -j;
-		double dist = sqrt(i*i + j*j);
-		int num = maxDensityPhotoreceptor * (1.0 - (dist / maxDistance) / 0.75);
-		return num;
+		return maxDensityPhotoreceptor * (1.0 - (dist / maxDistance) / 0.75);
 	}
 	else {
-
-		int pos_i = i >= 0 ? i : -i;
-		int pos_j = j >= 0 ? j : -j;
-		double dist = sqrt(i*i + j*j);
-		int num = maxDensityGanglion * (1.0 - (dist / maxDistance)) + 2.0;
-		return num;
+		return maxDensityGanglion * (1.0 - (dist / maxDistance)) + 2.0;
 	}
 	
 	//std::cout << "num at this cell is = " << num << "\n";
