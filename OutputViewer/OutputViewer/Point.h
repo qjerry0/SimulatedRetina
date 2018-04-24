@@ -21,6 +21,22 @@ struct Point {
 	Point operator- (const Point& p) {
 		return Point(this->x - p.x, this->y - p.y);
 	}
+
+	Point operator* (const Point p) {
+		return Point(this->x*p.x, this->y*p.y);
+	}
+
+	Point operator/ (const Point p) {
+		return Point(this->x / p.x, this->y / p.y);
+	}
+
+	Point operator* (const double d) {
+		return Point(this->x*d, this->y*d);
+	}
+
+	Point operator/ (const double d) {
+		return Point(this->x/d, this->y/d);
+	}
 };
 
 #endif

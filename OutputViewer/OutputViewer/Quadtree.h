@@ -68,7 +68,7 @@ public:
 
 template <class T>
 Quadtree<T>::Quadtree() {
-	CAPACITY = 4;
+	CAPACITY = 2;
 	nw = nullptr;
 	ne = nullptr;
 	sw = nullptr;
