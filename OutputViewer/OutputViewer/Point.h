@@ -35,7 +35,21 @@ struct Point {
 	}
 
 	Point operator/ (const double d) {
-		return Point(this->x/d, this->y/d);
+		return Point(this->x / d, this->y / d);
+	}
+
+	bool operator== (const Point p) {
+		return (this->x == p.x) && (this->y == p.y);
+	}
+
+	bool operator!= (const Point p) {
+		return !(*this == p);
+	}
+
+	double operator[] (int i) {
+		if (i)
+			return this->x;
+		return this->y;
 	}
 };
 
