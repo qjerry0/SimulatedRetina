@@ -6,11 +6,11 @@
 #include "Factory.h"
 
 const float Factory::size = 256.0f;
-const float Factory::maxDensityPhotoreceptor = 16.0f;
+const float Factory::maxDensityPhotoreceptor = 8.0f;
 const float Factory::minDensityPhotoreceptor = 1.0f;
 const float Factory::maxDensityGanglion = 4.0f;
-const float Factory::minDensityGanglion = 4.0f;
-const float Factory::percentRetinaModeled = .5f;
+const float Factory::minDensityGanglion = 1.0f;
+const float Factory::percentRetinaModeled = .9f;
 const double Factory::maxDistance = sqrt(Factory::size*Factory::size / 4 + Factory::size*Factory::size / 4);
 
 int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
