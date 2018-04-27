@@ -17,7 +17,10 @@ public:
 	static const float size;
 	static const float maxDensityPhotoreceptor;
 	static const float maxDensityGanglion;
+	static const float minDensityPhotoreceptor;
+	static const float minDensityGanglion;
 	static const double maxDistance;
+	static const float Factory::percentRetinaModeled;
 
 	/**
 	Generates all photoreceptors in the model

@@ -7,7 +7,10 @@
 
 const float Factory::size = 256.0f;
 const float Factory::maxDensityPhotoreceptor = 16.0f;
+const float Factory::minDensityPhotoreceptor = 1.0f;
 const float Factory::maxDensityGanglion = 4.0f;
+const float Factory::minDensityGanglion = 4.0f;
+const float Factory::percentRetinaModeled = .5f;
 const double Factory::maxDistance = sqrt(Factory::size*Factory::size / 4 + Factory::size*Factory::size / 4);
 
 int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
@@ -16,13 +19,14 @@ int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
 	int real_j = j - size / 2;
 	double dist = sqrt(real_i*real_i + real_j*real_j);
 	dist = dist > maxDistance ? maxDistance : dist;
+	dist = dist * percentRetinaModeled;
 
 	//number of photoreceptors generated is inversely proportional to distance from (0,0)
 	if(isPhotoreceptor){
-		return maxDensityPhotoreceptor * (1.0 - (dist / maxDistance) / 0.75) + 1.0;
+		return maxDensityPhotoreceptor * (1.0 - (dist/maxDistance)) + minDensityPhotoreceptor * (dist/maxDistance);
 	}
 	else {
-		return maxDensityGanglion * (1.0 - (dist / maxDistance)) + 2.0;
+		return maxDensityGanglion * (1.0 - (dist / maxDistance)) + minDensityGanglion * (dist / maxDistance);
 	}
 	
 	//std::cout << "num at this cell is = " << num << "\n";
