@@ -15,6 +15,8 @@ public:
 
 protected:
 	static const float SURROUND_CONSTANT;
+	static const float OPPONENT_MAX_FIELD_SIZE;
+	static const float OPPONENT_MIN_FIELD_SIZE;
 	Point location;
 	OpponentChannelType ocType;
 	OpponentFieldType ofType;
@@ -100,7 +102,7 @@ public:
 	
 		@return Radius of Receptive Field
 	*/
-	double getRange();
+	double getRange(float maxDist);
 
 	/**
 		Checks whether the photoreceptor should be processed by the opponent

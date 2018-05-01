@@ -5,28 +5,29 @@
 #include "ppl.h"
 #include "Factory.h"
 
-const float Factory::size = 256.0f;
-const float Factory::maxDensityPhotoreceptor = 8.0f;
-const float Factory::minDensityPhotoreceptor = 1.0f;
-const float Factory::maxDensityGanglion = 4.0f;
-const float Factory::minDensityGanglion = 1.0f;
-const float Factory::percentRetinaModeled = .9f;
-const double Factory::maxDistance = sqrt(Factory::size*Factory::size / 4 + Factory::size*Factory::size / 4);
+const float Factory::size = 512.0f;
+const float Factory::maxDensityPhotoreceptor = 1000.0f;
+const float Factory::minDensityPhotoreceptor = 4.0f;
+const float Factory::spreadParameterPhotoreceptor = 200.f;
+const float Factory::maxDensityOpponent = 100.0f;
+const float Factory::minDensityOpponent = 1.0f;
+const float Factory::spreadParameterOpponent = 64.0f;
+const float Factory::percentRetinaModeled = 1.0f;
+const double Factory::maxDistance = sqrt(2)*Factory::size;
 
 int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
 		
-	int real_i = i - size / 2;
-	int real_j = j - size / 2;
-	double dist = sqrt(real_i*real_i + real_j*real_j);
+	Point retinaLoc = Point(i - size / 2, j - size / 2);
+	double dist = retinaLoc.magnitude();
 	dist = dist > maxDistance ? maxDistance : dist;
 	dist = dist * percentRetinaModeled;
 
 	//number of photoreceptors generated is inversely proportional to distance from (0,0)
 	if(isPhotoreceptor){
-		return maxDensityPhotoreceptor * (1.0 - (dist/maxDistance)) + minDensityPhotoreceptor * (dist/maxDistance);
+		return (maxDensityPhotoreceptor - minDensityPhotoreceptor) / (spreadParameterPhotoreceptor * (dist/maxDistance) + 1) + minDensityPhotoreceptor;
 	}
 	else {
-		return maxDensityGanglion * (1.0 - (dist / maxDistance)) + minDensityGanglion * (dist / maxDistance);
+		return (maxDensityOpponent - minDensityOpponent) / (spreadParameterOpponent * (dist / maxDistance) + 1) + minDensityOpponent;
 	}
 	
 	//std::cout << "num at this cell is = " << num << "\n";
@@ -121,7 +122,7 @@ void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Oppon
 	concurrency::parallel_for_each(opData.begin(), opData.end(), [&](Data<Opponent> op) {
 			std::vector<Photoreceptor*>* photCAdd = new std::vector<Photoreceptor*>();
 			std::vector<Photoreceptor*>* photSAdd = new std::vector<Photoreceptor*>();
-			double rad = op.load->getRange();
+			double rad = op.load->getRange(photquad.getBoundary().halfSize.magnitude());
 			std::vector<Data<Photoreceptor>> photData = photquad.queryRange(Region(op.load->getPoint(), Point(rad,rad)));
 			for (Data<Photoreceptor> dp : photData) {
 				if (op.load->isCompatible(dp.load)) {
@@ -136,7 +137,7 @@ void Factory::connectOpponents(Quadtree<Photoreceptor>& photquad, Quadtree<Oppon
 			op.load->setCenterConnections(*photCAdd);
 			op.load->setSurroundConnections(*photSAdd);
 
-			if (((int)((100 * i) / opsize)) > ((int)((100 * (i-1)) / opsize)) && ((int)((100 * i) / opsize)) % 5 == 0) {
+			if (((int)((100 * i) / opsize)) > ((int)((100 * (i-1)) / opsize))) {
 				std::cout << "Connections are " << ((int)((100 * i) / opsize)) << "% complete.\n";
 			}
 

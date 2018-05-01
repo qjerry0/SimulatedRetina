@@ -16,9 +16,11 @@ class Factory {
 public:
 	static const float size;
 	static const float maxDensityPhotoreceptor;
-	static const float maxDensityGanglion;
 	static const float minDensityPhotoreceptor;
-	static const float minDensityGanglion;
+	static const float spreadParameterPhotoreceptor;
+	static const float maxDensityOpponent;
+	static const float minDensityOpponent;
+	static const float spreadParameterOpponent;
 	static const double maxDistance;
 	static const float percentRetinaModeled;
 

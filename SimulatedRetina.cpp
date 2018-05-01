@@ -14,11 +14,15 @@ int main()
 {
 	Quadtree<Photoreceptor> photoreceptorLayer = *Factory::createPhotoreceptors();
 
-	std::cout << "Photoreceptors created.\n==========================================\n";
+	int layerSize = photoreceptorLayer.queryRange(photoreceptorLayer.getBoundary()).size();
+
+	std::cout << layerSize << " Photoreceptors created.\n==========================================\n";
 
 	Quadtree<Opponent> opponentLayer = *Factory::createOpponents();
 	
-	std::cout << "Opponents created.\n==============================================\n";
+	layerSize = opponentLayer.queryRange(opponentLayer.getBoundary()).size();
+
+	std::cout << layerSize << " Opponents created.\n==============================================\n";
 
 	Factory::connectOpponents(photoreceptorLayer, opponentLayer);
 
