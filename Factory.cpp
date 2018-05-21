@@ -18,16 +18,16 @@ const double Factory::maxDistance = sqrt(2)*Factory::size;
 int Factory::numberOfCells(int i, int j, bool isPhotoreceptor) {
 		
 	Point retinaLoc = Point(i - size / 2, j - size / 2);
-	double dist = retinaLoc.magnitude();
-	dist = dist > maxDistance ? maxDistance : dist;
+	double dist = (retinaLoc.x*retinaLoc.x + retinaLoc.y*retinaLoc.y) / (2*Factory::size);
+	dist = dist > 1 ? 1 : dist;
 	dist = dist * percentRetinaModeled;
 
 	//number of photoreceptors generated is inversely proportional to distance from (0,0)
 	if(isPhotoreceptor){
-		return (maxDensityPhotoreceptor - minDensityPhotoreceptor) / (spreadParameterPhotoreceptor * (dist/maxDistance) + 1) + minDensityPhotoreceptor;
+		return (maxDensityPhotoreceptor - minDensityPhotoreceptor) / (spreadParameterPhotoreceptor * dist + 1) + minDensityPhotoreceptor;
 	}
 	else {
-		return (maxDensityOpponent - minDensityOpponent) / (spreadParameterOpponent * (dist / maxDistance) + 1) + minDensityOpponent;
+		return (maxDensityOpponent - minDensityOpponent) / (spreadParameterOpponent * dist  + 1) + minDensityOpponent;
 	}
 	
 	//std::cout << "num at this cell is = " << num << "\n";
