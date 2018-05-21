@@ -33,7 +33,7 @@ int main()
 		std::cout << "Top Left Region Photoreceptor Count: " << photoreceptorLayer.queryRange(testRegion).size() << "\n";
 
 		testRegion = Region(photoreceptorLayer.getBoundary().center, photoreceptorLayer.getBoundary().halfSize/8.0);
-		std::cout << "Center Region Photoreceptor COunt: " << photoreceptorLayer.queryRange(testRegion).size() << "\n";
+		std::cout << "Center Region Photoreceptor Count: " << photoreceptorLayer.queryRange(testRegion).size() << "\n";
 
 		std::vector<Data<Photoreceptor>> photsData = photoreceptorLayer.queryRange(photoreceptorLayer.getBoundary());
 
