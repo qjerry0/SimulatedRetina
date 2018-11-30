@@ -58,6 +58,9 @@ z - allows the user to zoom into the retina; in the console, user must enter:
 	c) the zoom y location (to get a point 1/4 from the top of the screen, enter 0.25)
 	Note: Zooming can also be done with the mouse, but it is painfully slow
 c - allows the user to save the image currently displayed on the window
+b - changes the background color to black
+w - changes the backgorund color to white
+g - changes the background color to gray
 
 ========================================================================
 
